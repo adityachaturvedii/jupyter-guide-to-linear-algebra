@@ -1,0 +1,20 @@
+# Book settings
+title: Jupyter Guide to Linear Algebra
+author: Aditya Chaturvedi
+logo: reflection_logo.png
+
+latex:
+  latex_documents:
+    targetname: book.tex
+
+
+launch_buttons:
+  notebook_interface: "classic"
+  colab_url: ""
+  thebe: true
+  
+html:
+    
+sphinx:
+  config:
+    html_show_copyright: false
