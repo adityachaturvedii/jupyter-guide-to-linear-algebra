@@ -1,0 +1,749 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Vector Space Examples &#8212; Jupyter Guide to Linear Algebra</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'Vector_Space_Examples';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Applications of Vector Spaces" href="Applications_VS.html" />
+    <link rel="prev" title="Bases" href="Bases.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/reflection_logo.png" class="logo__image only-light" alt="Jupyter Guide to Linear Algebra - Home"/>
+    <script>document.write(`<img src="_static/reflection_logo.png" class="logo__image only-dark" alt="Jupyter Guide to Linear Algebra - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    Welcome to the Jupyter Guide to Linear Algebra
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="Jupyter_Introduction.html">Introduction to Jupyter</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="Python_Introduction.html">Introduction to Python</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Numpy_Introduction.html">Introduction to NumPy and Matplotlib</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="Linear_Systems.html">Linear Systems</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="Gaussian_Elimination.html">Gaussian Elimination</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Matrix_Algebra.html">Matrix Algebra</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Solving_Systems.html">Solving Systems using Elimination</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Inverse_Matrices.html">Inverse Matrices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="LU_Factorization.html">LU Factorization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Applications.html">Applications of Linear Systems and Matrix Algebra</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="Vector_Spaces.html">Vector Spaces</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="General_Linear_Systems.html">General Linear Systems</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Linear_Combinations.html">Linear Combinations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Linear_Independence.html">Linear Independence</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Bases.html">Bases</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Vector Space Examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Applications_VS.html">Applications of Vector Spaces</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="Linear_Transformations.html">Linear Transformations</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="Matrix_Representations.html">Matrix Representations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Planar_Transformations.html">Transformations in a Plane</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Applications_LT.html">Applications of Linear Transformations</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="Inner_Products.html">Inner Products</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="Orthogonalization.html">Orthogonalization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="QR_Factorization.html">QR Factorization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Orthogonal_Subspaces.html">Orthogonal Subspaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Least_Squares_Solutions.html">Least Squares Solutions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Projections.html">Projections</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Applications_IP.html">Applications of Inner Products</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="Eigenvalues.html">Eigenvalues</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="Diagonalization.html">Diagonalization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Approximating_Eigenvalues.html">Approximating Eigenvalues</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Applications_EV.html">Applications of Eigenvalues and Eigenvectors</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="Solutions.html">Solutions</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="Introduction_Solutions.html">Introduction to Jupyter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Linear_Systems_Solutions.html">Linear Systems</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Vector_Spaces_Solutions.html">Vector Spaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Linear_Transformations_Solutions.html">Linear Transformations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Inner_Products_Solutions.html">Inner Products</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Eigenvalues_Solutions.html">Eigenvalues</a></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li>
+<button onclick="initThebeSBT()"
+  class="btn btn-sm btn-launch-thebe dropdown-item"
+  title="Launch Thebe"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-play"></i>
+  </span>
+<span class="btn__text-container">Live Code</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/Vector_Space_Examples.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Vector Space Examples</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example-1-polynomials">Example 1: Polynomials</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example-2-matrices">Example 2: Matrices</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example-3-functions">Example 3:  Functions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">Exercises</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="vector-space-examples">
+<h1>Vector Space Examples<a class="headerlink" href="#vector-space-examples" title="Link to this heading">#</a></h1>
+<p>With some of the basic concepts of vector spaces in place, we now return to the abstraction of understanding the vector space as a collection of objects and algebraic operations that satisfy certain properties.</p>
+<section id="example-1-polynomials">
+<h2>Example 1: Polynomials<a class="headerlink" href="#example-1-polynomials" title="Link to this heading">#</a></h2>
+<p>The collection of all polynomials with degree three or less, together with typical algebraic operations, constitutes a vector space.  This vector space is commonly written with the symbol <span class="math notranslate nohighlight">\(\mathbb{P}_3\)</span>.  If we take two elements from <span class="math notranslate nohighlight">\(\mathbb{P}_3\)</span>, <span class="math notranslate nohighlight">\(p = 2x^3 - x^2 + 6x -8\)</span> and <span class="math notranslate nohighlight">\(q = x^3 - 3x^2 -4x -3\)</span> for example, the linear combination <span class="math notranslate nohighlight">\(p+2q = 4x^3 - 7x^2 -2x -14\)</span> is well-defined, and is another element in <span class="math notranslate nohighlight">\(\mathbb{P}_3\)</span>.  Indeed any linear combination of polynomials in <span class="math notranslate nohighlight">\(\mathbb{P}_3\)</span> will be some other polynomial in <span class="math notranslate nohighlight">\(\mathbb{P}_3\)</span> by the usual rules of algebra.</p>
+<div class="math notranslate nohighlight">
+\[
+\begin{equation}
+s(a_3x^3 + a_2x^2 + a_1 + a_0) + t(b_3x^3 + b_2x^2 + b_1x + b_0) = (sa_3+tb_3)x^3 + (sa_2+tb_2)x^2 + (sa_1+tb_1)x
++ (sa_0 + ta_0)
+\end{equation}
+\]</div>
+<p>The required properties of the algebraic operations are all satisfied, though we will not verify them here.</p>
+<p>Specifying a polynomial in <span class="math notranslate nohighlight">\(\mathbb{P}_3\)</span> requires four coefficients, so it is somewhat natural to understand that <span class="math notranslate nohighlight">\(\mathbb{P}_3\)</span> has dimension 4.  One such basis for <span class="math notranslate nohighlight">\(\mathbb{P}_3\)</span> is the set <span class="math notranslate nohighlight">\(\{x^3, x^2, x, 1\}\)</span>.  The coordinates for any polynomial, with respect to this basis, will just be the coefficients on the <span class="math notranslate nohighlight">\(x^3\)</span>, <span class="math notranslate nohighlight">\(x^2\)</span>, <span class="math notranslate nohighlight">\(x\)</span> terms, and constant term.  If we use this standard basis, we can proceed to discuss the ideas of spans and linear independence.</p>
+<p>The following collection of polynomials (vectors) in <span class="math notranslate nohighlight">\(\mathbb{P}_3\)</span> are linearly dependent.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{eqnarray*}
+p_1 &amp; = &amp; 3x^3 + 2x^2 + x  - 1 \\
+p_2 &amp; = &amp; x^2 - 5x + 4 \\
+p_3 &amp; = &amp; 6x^3 + 3x^2 + 7x + -6 \\
+p_4 &amp; = &amp; -2x^3 + 2x^2 + 8x
+\end{eqnarray*}
+\end{split}\]</div>
+<p>In order to show that the set is linearly dependent, we must find a nontrivial solution to the equation
+<span class="math notranslate nohighlight">\(c_1p_1 + c_2p_2 + c_3p_3 + c_4p_4  = 0\)</span>.  The polynomial on the left can only be zero if the coefficients on all the terms are equal to zero.  Carrying out the algebra and gives one equation for each of the four terms.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{eqnarray*}
+3c_1 \quad\quad + 6c_3 -2c_4 &amp; = &amp; 0 \\
+2c_1 +c_2 + 3c_3 + 2c_4 &amp; = &amp; 0 \\
+c_1 -5c_2 + 7c_3 + 8c_4 &amp; = &amp; 0 \\
+-c_1 +4c_2 - 6c_3 \quad\quad &amp; = &amp; 0 \\
+\end{eqnarray*}
+\end{split}\]</div>
+<p>Examining the RREF of the coefficient matrix for this system, we see that there is not a pivot in each of the four columns, which implies that the system has a nontrivial solution and that that the set of polynomials is not linearly independent.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">laguide</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">lag</span>
+
+<span class="n">A</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">3</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="o">-</span><span class="mi">2</span><span class="p">],[</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">],[</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">8</span><span class="p">],[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="o">-</span><span class="mi">6</span><span class="p">,</span><span class="mi">0</span><span class="p">]])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">lag</span><span class="o">.</span><span class="n">FullRowReduction</span><span class="p">(</span><span class="n">A</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[[ 1.  0.  2.  0.]
+ [ 0.  1. -1.  0.]
+ [ 0.  0.  0.  1.]
+ [ 0.  0.  0.  0.]]
+</pre></div>
+</div>
+</div>
+</div>
+<p>There is nothing exceptional about polynomials that make up <span class="math notranslate nohighlight">\(\mathbb{P}_3\)</span>.  In general, the collection of polynomials of degree <span class="math notranslate nohighlight">\(n\)</span> or less, known as <span class="math notranslate nohighlight">\(\mathbb{P}_n\)</span>, is also a vector space for any choice of <span class="math notranslate nohighlight">\(n\)</span>.</p>
+</section>
+<section id="example-2-matrices">
+<h2>Example 2: Matrices<a class="headerlink" href="#example-2-matrices" title="Link to this heading">#</a></h2>
+<p>In <a class="reference internal" href="Matrix_Algebra.html"><span class="std std-doc">Matrix Algebra</span></a>, we pointed out that the matrices with only one column are commonly referred to as vectors, and that the algebra of matrices does not need to be defined in any special way to work on those with a single column.  The algebraic machinery required to compute linear combinations of matrices in general is no different than that required to compute linear combinations of those with a single column.  Perhaps it is then natural to think that matrices with multiple columns are as much a vector as those with a single column.  In one sense the single column matrix, which we have been calling a vector, is just a special type of matrix.  Based on the formal definition of a vector space however, the collection of all matrices of a given shape constitute a vector space, since the operations of matrix addition and scalar multiplication satisfy all the algebraic requirements.  In this sense <em>the matrices are vectors</em> since they are objects that make up a vector space.  No doubt this langauge is confusing.</p>
+<p>As an concrete example, we consider the collection of all <span class="math notranslate nohighlight">\(2\times 3\)</span> matrices, to which we will assign the symbol <span class="math notranslate nohighlight">\(\mathbb{M}_{2\times 3}\)</span>.  If we select two aribtrary matrices from this collection, and form an arbitrary linear combination, we will get another <span class="math notranslate nohighlight">\(2\times 3\)</span> matrix.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{equation}
+c_1A + c_2B = 
+c_1\left[ \begin{array}{ccc} a_{11} &amp; a_{12} &amp; a_{13} \\ a_{21} &amp; a_{22} &amp; a_{23}  \end{array}\right] +
+c_2\left[ \begin{array}{ccc} b_{11} &amp; b_{12} &amp; b_{13} \\ b_{21} &amp; b_{22} &amp; b_{23}  \end{array}\right] =
+\left[ \begin{array}{ccc} c_1a_{11}+c_2b_{11} &amp; c_1a_{12}+c_2b_{12} &amp; c_1a_{13}+c_2b_{13} \\ 
+c_1a_{21}+c_2b_{21} &amp; c_1a_{22}+c_2b_{22} &amp; c_1a_{23}+c_2b_{23}  \end{array}\right]
+\end{equation}
+\end{split}\]</div>
+<p>Again these alegbraic operations satisfy all the requirements necessary for a valid vector space and again we will omit the details of verification.</p>
+<p>We can write the following collection of matrices to act as a standard basis, which we will label <span class="math notranslate nohighlight">\(\alpha\)</span>.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{equation}
+E_1 = \left[ \begin{array}{ccc} 1 &amp; 0 &amp; 0 \\ 0 &amp; 0 &amp; 0  \end{array}\right] \hspace{1cm}
+E_3 = \left[ \begin{array}{ccc} 0 &amp; 1 &amp; 0 \\ 0 &amp; 0 &amp; 0  \end{array}\right] \hspace{1cm}
+E_5 = \left[ \begin{array}{ccc} 0 &amp; 0 &amp; 1 \\ 0 &amp; 0 &amp; 0  \end{array}\right] \hspace{1cm}
+\end{equation}
+\end{split}\]</div>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{equation}
+E_2 = \left[ \begin{array}{ccc} 0 &amp; 0 &amp; 0 \\ 1 &amp; 0 &amp; 0  \end{array}\right] \hspace{1cm}
+E_4 = \left[ \begin{array}{ccc} 0 &amp; 0 &amp; 0 \\ 0 &amp; 1 &amp; 0  \end{array}\right] \hspace{1cm}
+E_6 = \left[ \begin{array}{ccc} 0 &amp; 0 &amp; 0 \\ 0 &amp; 0 &amp; 1  \end{array}\right] \hspace{1cm}
+\end{equation}
+\end{split}\]</div>
+<p>Consider now the distinction between a matrix <span class="math notranslate nohighlight">\(B\)</span>, and the <em>coordinate vector</em> of <span class="math notranslate nohighlight">\(B\)</span> with respect to the basis <span class="math notranslate nohighlight">\(\alpha\)</span></p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{equation}
+B = \left[ \begin{array}{ccc} 2 &amp; 0 &amp; 5 \\ 1 &amp; -1 &amp; 2  \end{array}\right] \hspace{1cm} 
+\left [B\right]_{\alpha} = \left[ \begin{array}{r} 2\\1\\0\\-1\\5\\2  \end{array}\right] \hspace{1cm}
+\end{equation}
+\end{split}\]</div>
+<p>The coordinate vector <span class="math notranslate nohighlight">\(\left[B\right]_{\alpha}\)</span> is a vector in <span class="math notranslate nohighlight">\(\mathbb{R}^6\)</span> that gives us a description of how to assemble the matrix <span class="math notranslate nohighlight">\(B\)</span> as a linear combination of the elements in the basis <span class="math notranslate nohighlight">\(\alpha\)</span>.</p>
+</section>
+<section id="example-3-functions">
+<h2>Example 3:  Functions<a class="headerlink" href="#example-3-functions" title="Link to this heading">#</a></h2>
+<p>For a third example, we look at the collection of all continuous functions on the interval <span class="math notranslate nohighlight">\([0,1]\)</span>, which is given the symbol <span class="math notranslate nohighlight">\(C\left[0,1\right]\)</span>.  If <span class="math notranslate nohighlight">\(f\)</span> and <span class="math notranslate nohighlight">\(g\)</span> are two such functions, and <span class="math notranslate nohighlight">\(c\)</span> a scalar, we can define <span class="math notranslate nohighlight">\(cf\)</span> and <span class="math notranslate nohighlight">\(f+g\)</span> using the algebra of functions.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{eqnarray*}
+(cf)(x) &amp; = &amp; c(f(x)) \\
+(f + g)(x) &amp; = &amp; f(x) + g(x)
+\end{eqnarray*}
+\end{split}\]</div>
+<p>These algebraic combinations of functions satisfy all the requirements to make <span class="math notranslate nohighlight">\(C\left[0,1\right]\)</span> a vector space.  This space is quite different from the other examples in that it does not have a finite dimension.  Any basis for <span class="math notranslate nohighlight">\(C\left[0,1\right]\)</span> must contain an infinite number of functions.  For this reason, we cannot easily do calculations such as those in the previous example to determine if a set of functions are linearly independent.  We will however make use of this example in a later application.</p>
+</section>
+<section id="exercises">
+<h2>Exercises<a class="headerlink" href="#exercises" title="Link to this heading">#</a></h2>
+<p><strong>Exercise 1:</strong> Determine whether or not the set of polynomials <span class="math notranslate nohighlight">\(\{p_1, p_2, p_3\}\)</span> is a basis for <span class="math notranslate nohighlight">\(\mathbb{P}_2\)</span>.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{eqnarray*}
+p_1 &amp; = &amp; 3x^2 + 2x + 1 \\
+p_2 &amp; = &amp; 2x^2 + 5x + 3 \\
+p_3 &amp; = &amp; 6x^2 + 4x  +5 
+\end{eqnarray*}
+\end{split}\]</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## Code solution here</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Exercise 2:</strong> Find the coordinates of <span class="math notranslate nohighlight">\(p_4\)</span> with respect to the basis <span class="math notranslate nohighlight">\(\alpha\ = \{p_1, p_2, p_3\}\)</span>.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{eqnarray*}
+p_1 &amp; = &amp; x^2 + x + 2 \\
+p_2 &amp; = &amp; 2x^2 + 4x + 0 \\
+p_3 &amp; = &amp; 3x^2  + 2x      +1 \\
+p_4 &amp; = &amp; 11x^2 + 13x + 4
+\end{eqnarray*}
+\end{split}\]</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## Code solution here</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Exercise 3:</strong> Demonstrate that a set of four polynomials in <span class="math notranslate nohighlight">\(\mathbb{P}_4\)</span> cannot span <span class="math notranslate nohighlight">\(\mathbb{P}_4\)</span> through a computation.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## Code solution here</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Exercise 4:</strong> The set of matrices <span class="math notranslate nohighlight">\(\{A, B\}\)</span> form a basis for a subspace of <span class="math notranslate nohighlight">\(\mathbb{M}_{2\times 2}\)</span>. Find a matrix which is in the subspace (but is not <span class="math notranslate nohighlight">\(A\)</span> or <span class="math notranslate nohighlight">\(B\)</span>) and a matrix which is not in the subspace. Verify your answer.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{equation}
+A = \left[ \begin{array}{ccc} 1 &amp; 0  \\ 2 &amp; 0  \end{array}\right] \hspace{1cm}
+B = \left[ \begin{array}{ccc} 4 &amp; 0 \\ 5 &amp; 0  \end{array}\right] \hspace{1cm}
+\end{equation}
+\end{split}\]</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## Code solution here</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Exercise 5:</strong> Find the <strong>coordinate vector</strong> of <span class="math notranslate nohighlight">\(F\)</span> with respect to the basis <span class="math notranslate nohighlight">\(\beta = \{A,B,C,D\}\)</span> for <span class="math notranslate nohighlight">\(\mathbb{M}_{2\times 2}\)</span>.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{equation}
+A = \left[ \begin{array}{ccc} 1 &amp; 0  \\ 0 &amp; 1  \end{array}\right] \hspace{1cm}
+B = \left[ \begin{array}{ccc} 2 &amp; 1  \\ 2 &amp; 2  \end{array}\right] \hspace{1cm}
+C = \left[ \begin{array}{ccc} 3 &amp; 0 \\ 1 &amp; 4   \end{array}\right] \hspace{1cm}
+D = \left[ \begin{array}{ccc} 3 &amp; 4\\ 1 &amp; 1   \end{array}\right] \hspace{1cm}
+F = \left[ \begin{array}{ccc} 14 &amp; 10\\ 7 &amp; 11   \end{array}\right] \hspace{1cm}
+\end{equation}
+\end{split}\]</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## Code solution here</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Exercise 6:</strong> Let <span class="math notranslate nohighlight">\(\mathbb{D}_{2\times 2}\)</span> be the set of <span class="math notranslate nohighlight">\( 2 \times 2 \)</span> diagonal matrices.</p>
+<p>(<span class="math notranslate nohighlight">\(a\)</span>)  Explain why <span class="math notranslate nohighlight">\(\mathbb{D}_{2\times 2}\)</span> is a subspace of <span class="math notranslate nohighlight">\(\mathbb{M}_{2\times 2}\)</span>.</p>
+<p>(<span class="math notranslate nohighlight">\(b\)</span>)  Find a basis for <span class="math notranslate nohighlight">\(\mathbb{D}_{2\times 2}\)</span>.</p>
+<p>(<span class="math notranslate nohighlight">\(c\)</span>)  Determine the dimension of <span class="math notranslate nohighlight">\(\mathbb{D}_{2\times 2}\)</span>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## Code solution here</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "executablebooks/jupyter-book",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="Bases.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Bases</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="Applications_VS.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Applications of Vector Spaces</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example-1-polynomials">Example 1: Polynomials</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example-2-matrices">Example 2: Matrices</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example-3-functions">Example 3:  Functions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">Exercises</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Aditya Chaturvedi
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

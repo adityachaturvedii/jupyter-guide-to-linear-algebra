@@ -1,0 +1,905 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Linear Independence &#8212; Jupyter Guide to Linear Algebra</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'Linear_Independence';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Bases" href="Bases.html" />
+    <link rel="prev" title="Linear Combinations" href="Linear_Combinations.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/reflection_logo.png" class="logo__image only-light" alt="Jupyter Guide to Linear Algebra - Home"/>
+    <script>document.write(`<img src="_static/reflection_logo.png" class="logo__image only-dark" alt="Jupyter Guide to Linear Algebra - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    Welcome to the Jupyter Guide to Linear Algebra
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="Jupyter_Introduction.html">Introduction to Jupyter</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="Python_Introduction.html">Introduction to Python</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Numpy_Introduction.html">Introduction to NumPy and Matplotlib</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="Linear_Systems.html">Linear Systems</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="Gaussian_Elimination.html">Gaussian Elimination</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Matrix_Algebra.html">Matrix Algebra</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Solving_Systems.html">Solving Systems using Elimination</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Inverse_Matrices.html">Inverse Matrices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="LU_Factorization.html">LU Factorization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Applications.html">Applications of Linear Systems and Matrix Algebra</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="Vector_Spaces.html">Vector Spaces</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="General_Linear_Systems.html">General Linear Systems</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Linear_Combinations.html">Linear Combinations</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Linear Independence</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Bases.html">Bases</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Vector_Space_Examples.html">Vector Space Examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Applications_VS.html">Applications of Vector Spaces</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="Linear_Transformations.html">Linear Transformations</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="Matrix_Representations.html">Matrix Representations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Planar_Transformations.html">Transformations in a Plane</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Applications_LT.html">Applications of Linear Transformations</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="Inner_Products.html">Inner Products</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="Orthogonalization.html">Orthogonalization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="QR_Factorization.html">QR Factorization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Orthogonal_Subspaces.html">Orthogonal Subspaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Least_Squares_Solutions.html">Least Squares Solutions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Projections.html">Projections</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Applications_IP.html">Applications of Inner Products</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="Eigenvalues.html">Eigenvalues</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="Diagonalization.html">Diagonalization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Approximating_Eigenvalues.html">Approximating Eigenvalues</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Applications_EV.html">Applications of Eigenvalues and Eigenvectors</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="Solutions.html">Solutions</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="Introduction_Solutions.html">Introduction to Jupyter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Linear_Systems_Solutions.html">Linear Systems</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Vector_Spaces_Solutions.html">Vector Spaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Linear_Transformations_Solutions.html">Linear Transformations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Inner_Products_Solutions.html">Inner Products</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Eigenvalues_Solutions.html">Eigenvalues</a></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li>
+<button onclick="initThebeSBT()"
+  class="btn btn-sm btn-launch-thebe dropdown-item"
+  title="Launch Thebe"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-play"></i>
+  </span>
+<span class="btn__text-container">Live Code</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/Linear_Independence.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Linear Independence</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example-1-vectors-in-mathbb-r-2">Example 1:  Vectors in <span class="math notranslate nohighlight">\(\mathbb{R}^2\)</span></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example-2-vectors-in-mathbb-r-3">Example 2:  Vectors in <span class="math notranslate nohighlight">\(\mathbb{R}^3\)</span></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#homogeneous-systems">Homogeneous systems</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#null-space">Null space</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">Exercises</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="linear-independence">
+<h1>Linear Independence<a class="headerlink" href="#linear-independence" title="Link to this heading">#</a></h1>
+<p>A set of vectors <span class="math notranslate nohighlight">\(\{V_1, V_2, V_3, ... V_n\}\)</span> is said to be <strong>linearly independent</strong> if no linear combination of the vectors is equal to zero, except the combination with all weights equal to zero.  Thus if the set is linearly independent and</p>
+<div class="math notranslate nohighlight">
+\[
+\begin{equation}
+c_1V_1 + c_2V_2 + c_3V_3 + .... + c_nV_n = 0
+\end{equation}
+\]</div>
+<p>it must be that <span class="math notranslate nohighlight">\(c_1 = c_2 = c_3 = .... = c_n = 0\)</span>.  Equivalently we could say that the set of vectors is linearly independent if there is <em>no vector in the set</em> that is equal to a linear combination of the others.  If a set of vectors is not linearly independent, then we say that it is <strong>linearly dependent</strong>.</p>
+<section id="example-1-vectors-in-mathbb-r-2">
+<h2>Example 1:  Vectors in <span class="math notranslate nohighlight">\(\mathbb{R}^2\)</span><a class="headerlink" href="#example-1-vectors-in-mathbb-r-2" title="Link to this heading">#</a></h2>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{equation}
+V_1 = \left[ \begin{array}{r} 2 \\ 1 \end{array}\right] \hspace{1cm} 
+V_2 = \left[ \begin{array}{r} 1 \\ -6  \end{array}\right] \hspace{1cm}
+\end{equation}
+\end{split}\]</div>
+<p>In order to determine if this set of vectors is linearly independent, we must examine the following vector equation.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{equation}
+c_1\left[ \begin{array}{r} 2 \\ 1 \end{array}\right] +
+c_2\left[ \begin{array}{r} 1 \\ -6  \end{array}\right] =
+\left[ \begin{array}{r} 0 \\ 0 \end{array}\right]\end{equation}
+\end{split}\]</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">laguide</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">lag</span>
+
+<span class="n">A_augmented</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">6</span><span class="p">,</span><span class="mi">0</span><span class="p">]])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">lag</span><span class="o">.</span><span class="n">FullRowReduction</span><span class="p">(</span><span class="n">A_augmented</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[[1. 0. 0.]
+ [0. 1. 0.]]
+</pre></div>
+</div>
+</div>
+</div>
+<p>We see from the reduced augmented matrix that the only solution to the equation is <span class="math notranslate nohighlight">\(c_1 = c_2 = 0\)</span>.  The set <span class="math notranslate nohighlight">\(\{V_1, V_2\}\)</span> is linearly independent.</p>
+</section>
+<section id="example-2-vectors-in-mathbb-r-3">
+<h2>Example 2:  Vectors in <span class="math notranslate nohighlight">\(\mathbb{R}^3\)</span><a class="headerlink" href="#example-2-vectors-in-mathbb-r-3" title="Link to this heading">#</a></h2>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{equation}
+W_1 = \left[ \begin{array}{r} 2 \\ -1  \\ 1 \end{array}\right] \hspace{1cm} 
+W_2 = \left[ \begin{array}{r} 1 \\ -4 \\ 0  \end{array}\right] \hspace{1cm}
+W_3 = \left[ \begin{array}{r} 3 \\ 2 \\ 2  \end{array}\right] \hspace{1cm}
+\end{equation}
+\end{split}\]</div>
+<p>Again, we must examine the solution to a vector equation.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{equation}
+c_1\left[ \begin{array}{r} 2 \\ -1 \\ 1 \end{array}\right] +
+c_2\left[ \begin{array}{r} 1 \\ -4 \\ 0  \end{array}\right] +
+c_3\left[ \begin{array}{r} 3 \\ 2 \\ 2  \end{array}\right] =
+\left[ \begin{array}{r} 0 \\ 0 \\ 0\end{array}\right]\end{equation}
+\end{split}\]</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">B_augmented</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">4</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">]])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">lag</span><span class="o">.</span><span class="n">FullRowReduction</span><span class="p">(</span><span class="n">B_augmented</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[[ 1.  0.  2.  0.]
+ [ 0.  1. -1.  0.]
+ [ 0.  0.  0.  0.]]
+</pre></div>
+</div>
+</div>
+</div>
+<p>In this case we see that <span class="math notranslate nohighlight">\(c_3\)</span> is a free variable.  If we set <span class="math notranslate nohighlight">\(c_3 = 1\)</span>, then <span class="math notranslate nohighlight">\(c_2 = 1\)</span>, and <span class="math notranslate nohighlight">\(c_1 = -2\)</span>.  Since we are able to find a solution other than <span class="math notranslate nohighlight">\(c_1 = c_2 = c_3 = 0\)</span>, the set of vectors <span class="math notranslate nohighlight">\(\{W_1, W_2, W_3\}\)</span> is linearly dependent.</p>
+</section>
+<section id="homogeneous-systems">
+<h2>Homogeneous systems<a class="headerlink" href="#homogeneous-systems" title="Link to this heading">#</a></h2>
+<p>A linear system is said to be <strong>homogeneous</strong> if it can be described with the matrix equation <span class="math notranslate nohighlight">\(AX = 0\)</span>.  The solution to such a system has a connection to the solution of the system <span class="math notranslate nohighlight">\(AX=B\)</span>.  The homogeneous system also has a connection to the concept of linear independence.  If we link all of these ideas together we will be able to gain information about the solution of the system <span class="math notranslate nohighlight">\(AX=B\)</span>, based on some information about linear independence.</p>
+<p>In the previous examples we were solving the vector equation <span class="math notranslate nohighlight">\(c_1V_1 + c_2V_2 + c_3V_3 + .... + c_nV_n = 0\)</span> in order
+to determine if the set of vectors <span class="math notranslate nohighlight">\(\{V_1, V_2, V_3 .... V_n\}\)</span> were linearly independent.  This vector equation represents a homogeneous linear system that could also be described as <span class="math notranslate nohighlight">\(AX=0\)</span>, where <span class="math notranslate nohighlight">\(V_1\)</span>, <span class="math notranslate nohighlight">\(V_2\)</span>, … <span class="math notranslate nohighlight">\(V_n\)</span> are the columns of the matrix <span class="math notranslate nohighlight">\(A\)</span>, and <span class="math notranslate nohighlight">\(X\)</span> is the vector of unknown coefficients.  The set of vectors is linearly dependent if and only if the associated homogeneous system has a solution other than the vector with all entries equal to zero.  The vector of all zeros is called the <strong>trivial solution</strong>.  This zero vector is called a trivial solution because it is a solution to <em>every homogeneous system</em> <span class="math notranslate nohighlight">\(AX=0\)</span>, regardless of the entries of <span class="math notranslate nohighlight">\(A\)</span>.  For this reason, we are interested only in the existence of <em>nontrivial solutions</em> to <span class="math notranslate nohighlight">\(AX=0\)</span>.</p>
+<p>Let us suppose that a homogeneous system <span class="math notranslate nohighlight">\(AX=0\)</span> has a nontrivial solution, which we could label <span class="math notranslate nohighlight">\(X_h\)</span>.  Let us also suppose that a related nonhomogeneous system <span class="math notranslate nohighlight">\(AX=B\)</span> also has some particular solution, which we could label <span class="math notranslate nohighlight">\(X_p\)</span>.  So we have <span class="math notranslate nohighlight">\(AX_h = 0\)</span> and <span class="math notranslate nohighlight">\(AX_p = B\)</span>.  Now by the properties of matrix multiplication, <span class="math notranslate nohighlight">\(X_p + X_h\)</span> is also a solution to <span class="math notranslate nohighlight">\(AX=B\)</span> since <span class="math notranslate nohighlight">\(A(X_p + X_h) = AX_p + AX_h = B + 0\)</span>.</p>
+<p>Consider the following system as an example.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{equation}
+AX = \left[ \begin{array}{rrr} -3 &amp; 2 &amp; 1 \\ -2 &amp; 1 &amp; -1 \\ 4 &amp; 3 &amp; 3 \end{array}\right]
+\left[ \begin{array}{r} x_1 \\ x_2 \\ x_3 \end{array}\right]=
+\left[ \begin{array}{r} -6 \\ 1 \\ 13  \end{array}\right]= B
+\end{equation}
+\end{split}\]</div>
+<p>We can look at the associated homogeneous system to determine if the columns of <span class="math notranslate nohighlight">\(A\)</span> are linearly independent.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{equation}
+\left[ \begin{array}{rrr} -3 &amp; 2 &amp; 1 \\ -2 &amp; 1 &amp; -1 \\ 4 &amp; 3 &amp; 3 \end{array}\right]
+\left[ \begin{array}{r} c_1 \\ c_2 \\ c_3 \end{array}\right]=
+\left[ \begin{array}{r} 0 \\ 0 \\ 0  \end{array}\right]
+\end{equation}
+\end{split}\]</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">A_augmented</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="mi">4</span><span class="p">,</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span><span class="mi">0</span><span class="p">]])</span>
+<span class="n">A_augmented_reduced</span> <span class="o">=</span> <span class="n">lag</span><span class="o">.</span><span class="n">FullRowReduction</span><span class="p">(</span><span class="n">A_augmented</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">A_augmented_reduced</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[[1. 0. 3. 0.]
+ [0. 1. 5. 0.]
+ [0. 0. 0. 0.]]
+</pre></div>
+</div>
+</div>
+</div>
+<p>The absence of a pivot in the third column indicates that <span class="math notranslate nohighlight">\(c_3\)</span> is a free variable, and that there exists a nontrivial solution to the homogeneous system.  One possibility is <span class="math notranslate nohighlight">\(c_1 = 3\)</span>, <span class="math notranslate nohighlight">\(c_2=5\)</span>, <span class="math notranslate nohighlight">\(c_3 = -1\)</span>.  It is worth noting here that it was unnecessary to carry out the row operations on the last column of the augmented matrix since all the entries are zero.  When considering homogeneous systems, finding the RREF of the coefficient matrix is enough.</p>
+<p>The fact that the homogeneous system has a nontrivial solution implies that the columns of <span class="math notranslate nohighlight">\(A\)</span>, if we think of them as vectors, are linearly dependent.  Based on the discussion then, we expect that if the <span class="math notranslate nohighlight">\(AX=B\)</span> system has a solution, it will not be unique.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">A_augmented</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">6</span><span class="p">],[</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">],[</span><span class="mi">4</span><span class="p">,</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span><span class="mi">13</span><span class="p">]])</span>
+<span class="n">A_augmented_reduced</span> <span class="o">=</span> <span class="n">lag</span><span class="o">.</span><span class="n">FullRowReduction</span><span class="p">(</span><span class="n">A_augmented</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">A_augmented_reduced</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[[  1.   0.   3.  -8.]
+ [  0.   1.   5. -15.]
+ [  0.   0.   0.   0.]]
+</pre></div>
+</div>
+</div>
+</div>
+<p>The RREF represents two equations, and again the third variable is free.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{eqnarray*}
+x_1 \quad\quad + 3x_3 &amp; = &amp; -8\\
+x_2 + 5x_3 &amp; = &amp; = -15 
+\end{eqnarray*}
+\end{split}\]</div>
+<p>To express the possible solutions, we can set <span class="math notranslate nohighlight">\(x_3 = t\)</span>, which gives <span class="math notranslate nohighlight">\(x_2 = -15 -5t\)</span> and <span class="math notranslate nohighlight">\(x_1 = -8-3t\)</span>.  These components can be assembled into a vector that involves the parameter <span class="math notranslate nohighlight">\(t\)</span>.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{equation}
+X = \left[ \begin{array}{c} -8-3t \\ -15-5t  \\ t \end{array}\right]
+\end{equation}
+\end{split}\]</div>
+<p>Splitting this vector into two pieces helps us connect this solution to that of the homogeneous system.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{equation}
+X  = 
+\left[ \begin{array}{c} -8 \\ -15  \\ 0 \end{array}\right] + 
+t\left[ \begin{array}{c} -3 \\ -5  \\ 1 \end{array}\right] = X_p + X_h
+\end{equation}
+\end{split}\]</div>
+<p>We can check to see that <span class="math notranslate nohighlight">\(AX_p= B\)</span>, <span class="math notranslate nohighlight">\(AX_h= 0\)</span> for any <span class="math notranslate nohighlight">\(t\)</span>, and <span class="math notranslate nohighlight">\(A(X_p+X_h) = B\)</span> for any <span class="math notranslate nohighlight">\(t\)</span>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">A</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">],[</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">],[</span><span class="mi">4</span><span class="p">,</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span><span class="o">-</span><span class="mi">3</span><span class="p">]])</span>
+
+<span class="n">X_p</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="o">-</span><span class="mi">8</span><span class="p">],[</span><span class="o">-</span><span class="mi">15</span><span class="p">],[</span><span class="mi">0</span><span class="p">]])</span>
+<span class="n">X_h</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="o">-</span><span class="mi">3</span><span class="p">],[</span><span class="o">-</span><span class="mi">5</span><span class="p">],[</span><span class="mi">1</span><span class="p">]])</span>
+
+<span class="n">t</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">()</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">X_p</span> <span class="o">+</span> <span class="n">t</span><span class="o">*</span><span class="n">X_h</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">A</span><span class="nd">@X_p</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">A</span><span class="o">@</span><span class="p">(</span><span class="n">t</span><span class="o">*</span><span class="n">X_h</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">A</span><span class="nd">@X</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[[ -8.39456271]
+ [-15.65760451]
+ [  0.1315209 ]]
+
+
+[[-6]
+ [ 1]
+ [13]]
+
+
+[[0.00000000e+00]
+ [0.00000000e+00]
+ [1.11022302e-16]]
+
+
+[[-6.]
+ [ 1.]
+ [13.]]
+</pre></div>
+</div>
+</div>
+</div>
+<p>It is important to notice that the first three columns of the RREF for the augmented matrix of the homogeneous system are exactly the same as those of the RREF for the system <span class="math notranslate nohighlight">\(AX=B\)</span>.  Of course that must be the case since the first three columns come from the coefficient matrix <span class="math notranslate nohighlight">\(A\)</span>, which is the same in both systems.  The point here is that <strong>the system <span class="math notranslate nohighlight">\(AX=B\)</span> can only have a unique solution if the columns of <span class="math notranslate nohighlight">\(A\)</span> are linearly independent</strong>.</p>
+</section>
+<section id="null-space">
+<h2>Null space<a class="headerlink" href="#null-space" title="Link to this heading">#</a></h2>
+<p>With the concept of homogeneous systems in place, we are ready to define the second fundamental subspace.  If <span class="math notranslate nohighlight">\(A\)</span> is an <span class="math notranslate nohighlight">\(m\times n\)</span> matrix, the <strong>null space</strong> of <span class="math notranslate nohighlight">\(A\)</span> is the set of vectors <span class="math notranslate nohighlight">\(X\)</span>, such that <span class="math notranslate nohighlight">\(AX=0\)</span>.  In other words, the null space of <span class="math notranslate nohighlight">\(A\)</span> is the set of all solutions to the homogeneous system <span class="math notranslate nohighlight">\(AX=0\)</span>.  The null space of <span class="math notranslate nohighlight">\(A\)</span> is a subspace of <span class="math notranslate nohighlight">\(\mathbb{R}^n\)</span>, and is written with the notation <span class="math notranslate nohighlight">\(\mathcal{N}(A)\)</span>.  We can now reformulate earlier statements in terms of the null space.</p>
+<ul class="simple">
+<li><p>The columns of a matrix <span class="math notranslate nohighlight">\(A\)</span> are linearly independent if and only if <span class="math notranslate nohighlight">\(\mathcal{N}(A)\)</span> contains only the zero vector.</p></li>
+<li><p>The system <span class="math notranslate nohighlight">\(AX=B\)</span> has at most one solution if and only if <span class="math notranslate nohighlight">\(\mathcal{N}(A)\)</span> contains only the zero vector.</p></li>
+</ul>
+<p>Making connections between the fundamental subspaces of <span class="math notranslate nohighlight">\(A\)</span> and the solution sets of the system <span class="math notranslate nohighlight">\(AX=B\)</span> allows us to make general conclusions that further build our understanding of linear systems, and the methods by which we might solve them.</p>
+</section>
+<section id="exercises">
+<h2>Exercises<a class="headerlink" href="#exercises" title="Link to this heading">#</a></h2>
+<p><strong>Exercise 1:</strong> Determine if the set of vectors <span class="math notranslate nohighlight">\( \{U_1, U_2, U_3\} \)</span>is linearly independent.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{equation}
+U_1 = \left[ \begin{array}{r} 0 \\ 5  \\ 2  \\ 2 \end{array}\right] \hspace{1cm} 
+U_2 = \left[ \begin{array}{r} 1 \\ -1 \\ 0  \\ -1 \end{array}\right] \hspace{1cm}
+U_3 = \left[ \begin{array}{r} 3 \\ 2 \\ 2  \\ -1 \end{array}\right]
+\end{equation}
+\end{split}\]</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## Code solution here.</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Exercise 2:</strong> Determine whether or not the set of vectors <span class="math notranslate nohighlight">\( \{W_1, W_2, W_3, W_4 \} \)</span> is linearly independent. If the set is linearly dependent, then represent one of the vectors of the set as the linear combination of others.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{equation}
+W_1 = \left[ \begin{array}{r} 1 \\ 0  \\ 0 \\1  \end{array}\right] \hspace{1cm} 
+W_2 = \left[ \begin{array}{r} 0 \\ 1 \\ -1 \\0  \end{array}\right] \hspace{1cm}
+W_3 = \left[ \begin{array}{r} -1 \\ 0 \\ -1 \\ 0  \end{array}\right] \hspace{1cm}
+W_4 = \left[ \begin{array}{r} 1 \\1 \\1\\-1 \end{array}\right] 
+\end{equation}
+\end{split}\]</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## Code solution here</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Exercise 3:</strong> Find the value of <span class="math notranslate nohighlight">\(b\)</span> for which the given vectors are linearly dependent. Then, represent one vector as the linear combination of the other two.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{equation}
+X_1 = \left[ \begin{array}{r} 1 \\ 0  \\ 1  \end{array}\right] \hspace{1cm} 
+X_2 = \left[ \begin{array}{r} 1 \\ 2\\ 3  \end{array}\right] \hspace{1cm}
+X_3 = \left[ \begin{array}{r} 2 \\ 4 \\ b   \end{array}\right] \
+\end{equation}
+\end{split}\]</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## Code solution here</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Exercise 4:</strong> Find the value(<span class="math notranslate nohighlight">\(s\)</span>) of <span class="math notranslate nohighlight">\(a\)</span> such that the set of vectors <span class="math notranslate nohighlight">\( \{V_1, V_2, V_3\} \)</span> is linearly independent.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{equation}
+V_1 = \left[ \begin{array}{r} 1 \\ 1  \\ 1  \end{array}\right] \hspace{1cm} 
+V_2 = \left[ \begin{array}{r} a \\ 1 \\ 1   \end{array}\right] \hspace{1cm}
+V_3 = \left[ \begin{array}{r} 0 \\ 1 \\ a  \end{array}\right]
+\end{equation}
+\end{split}\]</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## Code solution here</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Exercise 5:</strong>  Use the concept of linear independence of vectors to show that the given system does not have infinitely many solutions.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{equation}
+AX = \left[ \begin{array}{rrr} 1 &amp; 1 &amp; 2 \\ 2 &amp; 0 &amp; 1 \\ 3 &amp; 1 &amp; 1 \end{array}\right]
+\left[ \begin{array}{r} x_1 \\ x_2 \\ x_3 \end{array}\right]=
+\left[ \begin{array}{r} 1 \\ 1 \\ 1  \end{array}\right]= B
+\end{equation}
+\end{split}\]</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## Code solution here</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Exercise 6:</strong> Can you find a nonzero vector in the null space of the matrix <span class="math notranslate nohighlight">\(A\)</span>? Use this information to determine the number of solutions for the system <span class="math notranslate nohighlight">\(AX = B\)</span>, where <span class="math notranslate nohighlight">\(B\)</span> is any vector in $\mathbb{R}^3$.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{equation}
+A = \left[ \begin{array}{rrr} 1 &amp; 2 &amp; 3 \\ 1 &amp; 0 &amp; 1 \\ 1 &amp; 1 &amp; 2 \end{array}\right]
+\end{equation}
+\end{split}\]</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## Code solution here</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Exercise 7:</strong> Find two distinct nonzero vectors in the null space of the matrix <span class="math notranslate nohighlight">\(D\)</span>.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{equation}
+D = \left[ \begin{array}{rrr} 4 &amp; 4 &amp; 3 \\ 8 &amp; 8 &amp; 6 \\ 1 &amp; 0 &amp; 1 \end{array}\right]
+\end{equation}
+\end{split}\]</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## Code solution here.</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Exercise 8:</strong>
+Suppose the vector <span class="math notranslate nohighlight">\(X\)</span> given below is a solution for a system <span class="math notranslate nohighlight">\(AX = B\)</span> for any value of <span class="math notranslate nohighlight">\(t\)</span>.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{equation}
+X = \left[ \begin{array}{r} -3 + 2t \\ 2 - t  \\ t  \end{array}\right] \hspace{1cm} 
+\end{equation}
+\end{split}\]</div>
+<p><span class="math notranslate nohighlight">\((a)\)</span> Following the discussion in this section on homogeneous systems, find <span class="math notranslate nohighlight">\(X_h\)</span> and <span class="math notranslate nohighlight">\(X_p\)</span> so that <span class="math notranslate nohighlight">\(X= X_p+X_h\)</span> so that <span class="math notranslate nohighlight">\(X_p\)</span> is the solution to some system <span class="math notranslate nohighlight">\(AX=B\)</span> and <span class="math notranslate nohighlight">\(X_h\)</span> is the solution to the corresponding homogeneous system <span class="math notranslate nohighlight">\(AX=0\)</span>.</p>
+<p><span class="math notranslate nohighlight">\((b)\)</span> Given the coefficient matrix <span class="math notranslate nohighlight">\(A\)</span>, find <span class="math notranslate nohighlight">\(B\)</span>.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{equation}
+A = \left[ \begin{array}{rrr} 1 &amp; 2 &amp; 0 \\ 0 &amp; 1 &amp; 1  \end{array}\right]
+\end{equation}
+\end{split}\]</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## Code Solution here</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "executablebooks/jupyter-book",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="Linear_Combinations.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Linear Combinations</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="Bases.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Bases</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example-1-vectors-in-mathbb-r-2">Example 1:  Vectors in <span class="math notranslate nohighlight">\(\mathbb{R}^2\)</span></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example-2-vectors-in-mathbb-r-3">Example 2:  Vectors in <span class="math notranslate nohighlight">\(\mathbb{R}^3\)</span></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#homogeneous-systems">Homogeneous systems</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#null-space">Null space</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">Exercises</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Aditya Chaturvedi
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

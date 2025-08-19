@@ -1,0 +1,1411 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Eigenvalues &#8212; Jupyter Guide to Linear Algebra</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'Eigenvalues_Solutions';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Inner Products" href="Inner_Products_Solutions.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/reflection_logo.png" class="logo__image only-light" alt="Jupyter Guide to Linear Algebra - Home"/>
+    <script>document.write(`<img src="_static/reflection_logo.png" class="logo__image only-dark" alt="Jupyter Guide to Linear Algebra - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    Welcome to the Jupyter Guide to Linear Algebra
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="Jupyter_Introduction.html">Introduction to Jupyter</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="Python_Introduction.html">Introduction to Python</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Numpy_Introduction.html">Introduction to NumPy and Matplotlib</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="Linear_Systems.html">Linear Systems</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="Gaussian_Elimination.html">Gaussian Elimination</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Matrix_Algebra.html">Matrix Algebra</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Solving_Systems.html">Solving Systems using Elimination</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Inverse_Matrices.html">Inverse Matrices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="LU_Factorization.html">LU Factorization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Applications.html">Applications of Linear Systems and Matrix Algebra</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="Vector_Spaces.html">Vector Spaces</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="General_Linear_Systems.html">General Linear Systems</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Linear_Combinations.html">Linear Combinations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Linear_Independence.html">Linear Independence</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Bases.html">Bases</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Vector_Space_Examples.html">Vector Space Examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Applications_VS.html">Applications of Vector Spaces</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="Linear_Transformations.html">Linear Transformations</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="Matrix_Representations.html">Matrix Representations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Planar_Transformations.html">Transformations in a Plane</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Applications_LT.html">Applications of Linear Transformations</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="Inner_Products.html">Inner Products</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="Orthogonalization.html">Orthogonalization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="QR_Factorization.html">QR Factorization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Orthogonal_Subspaces.html">Orthogonal Subspaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Least_Squares_Solutions.html">Least Squares Solutions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Projections.html">Projections</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Applications_IP.html">Applications of Inner Products</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="Eigenvalues.html">Eigenvalues</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="Diagonalization.html">Diagonalization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Approximating_Eigenvalues.html">Approximating Eigenvalues</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Applications_EV.html">Applications of Eigenvalues and Eigenvectors</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="Solutions.html">Solutions</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="Introduction_Solutions.html">Introduction to Jupyter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Linear_Systems_Solutions.html">Linear Systems</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Vector_Spaces_Solutions.html">Vector Spaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Linear_Transformations_Solutions.html">Linear Transformations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Inner_Products_Solutions.html">Inner Products</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Eigenvalues</a></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li>
+<button onclick="initThebeSBT()"
+  class="btn btn-sm btn-launch-thebe dropdown-item"
+  title="Launch Thebe"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-play"></i>
+  </span>
+<span class="btn__text-container">Live Code</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/Eigenvalues_Solutions.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Eigenvalues</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#diagonalization">Diagonalization</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#approximating-eigenvalues">Approximating Eigenvalues</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#applications">Applications</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="eigenvalues">
+<h1>Eigenvalues<a class="headerlink" href="#eigenvalues" title="Link to this heading">#</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">laguide</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">lag</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">scipy.linalg</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sla</span>
+<span class="o">%</span><span class="k">matplotlib</span> inline
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">math</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">ModuleNotFoundError</span><span class="g g-Whitespace">                       </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">line</span> <span class="mi">3</span>
+<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="kn">import</span><span class="w"> </span><span class="nn">laguide</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">lag</span>
+<span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="ne">----&gt; </span><span class="mi">3</span> <span class="kn">import</span><span class="w"> </span><span class="nn">scipy.linalg</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sla</span>
+<span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="n">get_ipython</span><span class="p">()</span><span class="o">.</span><span class="n">run_line_magic</span><span class="p">(</span><span class="s1">&#39;matplotlib&#39;</span><span class="p">,</span> <span class="s1">&#39;inline&#39;</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">5</span> <span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+<span class="ne">ModuleNotFoundError</span>: No module named &#39;scipy&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Exercise 1:</strong> Determine the eigenvalues and corresponding eigenvectors of the following matrices by considering the transformations that they represent. Check your answers with a few computations.</p>
+<p><span class="math notranslate nohighlight">\((a)\)</span></p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{equation}
+A = \left[ \begin{array}{cc} 1 &amp; 0 \\ 0 &amp; -3 \end{array}\right]
+\end{equation}
+\end{split}\]</div>
+<p><strong>Solution:</strong></p>
+<p>Recall from <a class="reference internal" href="Planar_Transformations.html"><span class="std std-doc">Chapter 4</span></a> that applying the transformation represented by <span class="math notranslate nohighlight">\(A\)</span> is equivalent to stretching in the direction of the <span class="math notranslate nohighlight">\(y\)</span>-axis by a factor of 3 and then reflecting over the <span class="math notranslate nohighlight">\(y\)</span>-axis. If we imagine what this does to vectors in the plane then we might see that any vector that lies on the <span class="math notranslate nohighlight">\(x\)</span>-axis will be left unaffected. Therefore our first eigenvalue is <span class="math notranslate nohighlight">\(\lambda_1 = 1\)</span> which corresponds to any scalar multiple of our first eigenvector <span class="math notranslate nohighlight">\(V_1 = \begin{equation} \left[ \begin{array}{cc} 1 \\ 0 \end{array}\right] \end{equation}\)</span>. Additionally, any vector that lies on the <span class="math notranslate nohighlight">\(y\)</span>-axis will simply be scaled by a factor of <span class="math notranslate nohighlight">\(-3\)</span>. Therefore our second eigenvalue is <span class="math notranslate nohighlight">\(\lambda_2 = -3\)</span> which corresponds to any scalar multiple of our second eigenvector <span class="math notranslate nohighlight">\(V_2 = \begin{equation} \left[ \begin{array}{cc} 0 \\ 1 \end{array}\right] \end{equation}\)</span>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">A</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="mi">3</span><span class="p">]])</span>
+<span class="n">V1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">],[</span><span class="mi">0</span><span class="p">]])</span>
+<span class="n">V2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">],[</span><span class="mi">1</span><span class="p">]])</span>
+<span class="n">R</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">5</span><span class="p">],[</span><span class="mi">0</span><span class="p">]])</span>
+<span class="n">S</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">],[</span><span class="mi">1</span><span class="p">]])</span>
+<span class="n">T</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">],[</span><span class="mi">0</span><span class="p">]])</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">A</span><span class="nd">@V1</span><span class="p">,</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">A</span><span class="nd">@V2</span><span class="p">,</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">A</span><span class="nd">@R</span><span class="p">,</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">A</span><span class="nd">@S</span><span class="p">,</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">A</span><span class="nd">@T</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[[1]
+ [0]] 
+
+[[ 0]
+ [-3]] 
+
+[[5]
+ [0]] 
+
+[[ 1]
+ [-3]] 
+
+[[0]
+ [0]]
+</pre></div>
+</div>
+</div>
+</div>
+<p><span class="math notranslate nohighlight">\((b)\)</span></p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{equation}
+B = \left[ \begin{array}{cc} 1 &amp; 1 \\ 0 &amp; 1 \end{array}\right]
+\end{equation}
+\end{split}\]</div>
+<p><strong>Solutions:</strong></p>
+<p>Recall from <a class="reference internal" href="Planar_Transformations.html"><span class="std std-doc">Chapter 4</span></a> that applying the transformation represented by <span class="math notranslate nohighlight">\(B\)</span> is equivalent to shearing along the <span class="math notranslate nohighlight">\(x\)</span>-axis with a shearing factor of 1. Any vector that lies along the <span class="math notranslate nohighlight">\(x\)</span>-axis will be left unchanged because its <span class="math notranslate nohighlight">\(y\)</span>-coordinate is 0 and thus adds nothing to <span class="math notranslate nohighlight">\(x\)</span>-coordinate. Therefore our first eigenvalue is <span class="math notranslate nohighlight">\(\lambda_1 = 1\)</span> which corresponds to any scalar multiple of our first eigenvector <span class="math notranslate nohighlight">\(V_1 = \begin{equation} \left[ \begin{array}{cc} 1 \\ 0 \end{array}\right] \end{equation}\)</span>. Any other vector with a nonzero <span class="math notranslate nohighlight">\(y\)</span>-coordinate will shear off of its original span, and thus cannot be a scalar multiple of itself. Therefore <span class="math notranslate nohighlight">\(V_1\)</span> is the only eigenvalue of <span class="math notranslate nohighlight">\(B\)</span>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">B</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">],[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]])</span>
+<span class="n">V1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">],[</span><span class="mi">0</span><span class="p">]])</span>
+<span class="n">V2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">],[</span><span class="mi">1</span><span class="p">]])</span>
+<span class="n">R</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">5</span><span class="p">],[</span><span class="mi">0</span><span class="p">]])</span>
+<span class="n">S</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">],[</span><span class="mi">1</span><span class="p">]])</span>
+<span class="n">T</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">],[</span><span class="mi">0</span><span class="p">]])</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">B</span><span class="nd">@V1</span><span class="p">,</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">B</span><span class="nd">@V2</span><span class="p">,</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">B</span><span class="nd">@R</span><span class="p">,</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">B</span><span class="nd">@S</span><span class="p">,</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">B</span><span class="nd">@T</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[[1]
+ [0]] 
+
+[[1]
+ [1]] 
+
+[[5]
+ [0]] 
+
+[[2]
+ [1]] 
+
+[[0]
+ [0]]
+</pre></div>
+</div>
+</div>
+</div>
+<p><span class="math notranslate nohighlight">\((c)\)</span></p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{equation}
+C = \left[ \begin{array}{cc} cos(\frac{\pi}{2}) &amp; -sin(\frac{\pi}{2}) \\ sin(\frac{\pi}{2}) &amp; cos(\frac{\pi}{2}) \end{array}\right]
+\end{equation}
+\end{split}\]</div>
+<p><strong>Solution:</strong></p>
+<p>Recall from <a class="reference internal" href="Planar_Transformations.html"><span class="std std-doc">Chapter 4</span></a> that applying the transformation represented by <span class="math notranslate nohighlight">\(C\)</span> is equivalent to a rotation about the origin by the angle <span class="math notranslate nohighlight">\(\frac{\pi}{2}\)</span>. Any nonzero vector that is transformed by this matrix will be pointing directly perpendicular to its original direction, so cannot lie on its original span. Therefore <span class="math notranslate nohighlight">\(C\)</span> has no eigenvalues nor any eigenvectors.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">C</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="n">math</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="mi">2</span><span class="p">),</span><span class="o">-</span><span class="n">math</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="mi">2</span><span class="p">)],[</span><span class="n">math</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="mi">2</span><span class="p">),</span><span class="n">math</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="mi">2</span><span class="p">)]])</span>
+<span class="n">V1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">],[</span><span class="mi">0</span><span class="p">]])</span>
+<span class="n">V2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">],[</span><span class="mi">1</span><span class="p">]])</span>
+<span class="n">R</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">5</span><span class="p">],[</span><span class="mi">0</span><span class="p">]])</span>
+<span class="n">S</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">],[</span><span class="mi">1</span><span class="p">]])</span>
+<span class="n">T</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">],[</span><span class="mi">0</span><span class="p">]])</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">C</span><span class="nd">@V1</span><span class="p">),</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">C</span><span class="nd">@V2</span><span class="p">),</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">C</span><span class="nd">@R</span><span class="p">),</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">C</span><span class="nd">@S</span><span class="p">),</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">C</span><span class="nd">@T</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[[0.]
+ [1.]] 
+
+[[-1.]
+ [ 0.]] 
+
+[[0.]
+ [5.]] 
+
+[[-1.]
+ [ 1.]] 
+
+[[0.]
+ [0.]]
+</pre></div>
+</div>
+</div>
+</div>
+<p><span class="math notranslate nohighlight">\((d)\)</span></p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{equation}
+D = \left[ \begin{array}{cc} -0.6 &amp; -0.8 \\ -0.8 &amp; 0.6 \end{array}\right]
+\end{equation}
+\end{split}\]</div>
+<p><strong>Solution:</strong> If we plot a shape before and after applying this transformation, it appears that this matrix reflects over the line <span class="math notranslate nohighlight">\(y=-2x\)</span>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">coords</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">],[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]])</span>
+<span class="n">coords</span> <span class="o">=</span> <span class="n">coords</span><span class="o">.</span><span class="n">transpose</span><span class="p">()</span>
+<span class="n">D</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="o">-</span><span class="mf">0.6</span><span class="p">,</span><span class="o">-</span><span class="mf">0.8</span><span class="p">],[</span><span class="o">-</span><span class="mf">0.8</span><span class="p">,</span><span class="mf">0.6</span><span class="p">]])</span>
+<span class="n">D_coords</span> <span class="o">=</span> <span class="n">D</span><span class="nd">@coords</span>
+
+<span class="n">x</span> <span class="o">=</span> <span class="n">coords</span><span class="p">[</span><span class="mi">0</span><span class="p">,:]</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">coords</span><span class="p">[</span><span class="mi">1</span><span class="p">,:]</span>
+<span class="n">x_LT</span> <span class="o">=</span> <span class="n">D_coords</span><span class="p">[</span><span class="mi">0</span><span class="p">,:]</span>
+<span class="n">y_LT</span> <span class="o">=</span> <span class="n">D_coords</span><span class="p">[</span><span class="mi">1</span><span class="p">,:]</span>
+
+<span class="c1"># Create the figure and axes objects</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+
+<span class="c1"># Plot the points and the line y = -2x. x and y are original vectors, x_LT and y_LT are images</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="s1">&#39;ro&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_LT</span><span class="p">,</span><span class="n">y_LT</span><span class="p">,</span><span class="s1">&#39;bo&#39;</span><span class="p">)</span>
+<span class="n">a</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">100</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="o">-</span><span class="mi">2</span><span class="o">*</span><span class="n">a</span><span class="p">,</span><span class="n">ls</span><span class="o">=</span><span class="s1">&#39;:&#39;</span><span class="p">)</span>
+
+<span class="c1"># Connect the points by lines</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="s1">&#39;r&#39;</span><span class="p">,</span><span class="n">ls</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_LT</span><span class="p">,</span><span class="n">y_LT</span><span class="p">,</span><span class="s1">&#39;b&#39;</span><span class="p">)</span>
+
+<span class="c1"># Edit some settings </span>
+<span class="n">ax</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">,</span><span class="n">ls</span><span class="o">=</span><span class="s2">&quot;:&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">,</span><span class="n">ls</span><span class="o">=</span><span class="s2">&quot;:&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">axis</span><span class="p">([</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">])</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s1">&#39;equal&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/ff3a19b68f2e388318f10b0162c0c405a5bf2c1057cc373e81f85a800882864f.png" src="_images/ff3a19b68f2e388318f10b0162c0c405a5bf2c1057cc373e81f85a800882864f.png" />
+</div>
+</div>
+<p>Any vector that lies on the line <span class="math notranslate nohighlight">\(y = -2x\)</span> will be left unchanged, so our first eigenvalue is <span class="math notranslate nohighlight">\(\lambda_1 = 1\)</span> which corresponds to any scalar multiple of our first eigenvector <span class="math notranslate nohighlight">\(V_1 = \begin{equation} \left[ \begin{array}{cc} 1 \\ -2 \end{array}\right] \end{equation}\)</span>. Any vector that lies on the line orthogonal to the first, namely <span class="math notranslate nohighlight">\(y = \frac{1}{2}x\)</span> will be simply flipped in direction, or in other words scaled by a factor of <span class="math notranslate nohighlight">\(-1\)</span>. Thus our second eigenvalue is <span class="math notranslate nohighlight">\(\lambda_2 = -1\)</span> which corresponds to any scalar multiple of our second eigenvector <span class="math notranslate nohighlight">\(V_2 = \begin{equation} \left[ \begin{array}{cc} 2 \\ 1 \end{array}\right] \end{equation}\)</span>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">D</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="o">-</span><span class="mf">0.6</span><span class="p">,</span><span class="o">-</span><span class="mf">0.8</span><span class="p">],[</span><span class="o">-</span><span class="mf">0.8</span><span class="p">,</span><span class="mf">0.6</span><span class="p">]])</span>
+<span class="n">V1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">],[</span><span class="o">-</span><span class="mi">2</span><span class="p">]])</span>
+<span class="n">V2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">2</span><span class="p">],[</span><span class="mi">1</span><span class="p">]])</span>
+<span class="n">R</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">5</span><span class="p">],[</span><span class="mi">0</span><span class="p">]])</span>
+<span class="n">S</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">],[</span><span class="mi">1</span><span class="p">]])</span>
+<span class="n">T</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">],[</span><span class="mi">0</span><span class="p">]])</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">D</span><span class="nd">@V1</span><span class="p">,</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">D</span><span class="nd">@V2</span><span class="p">,</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">D</span><span class="nd">@R</span><span class="p">,</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">D</span><span class="nd">@S</span><span class="p">,</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">D</span><span class="nd">@T</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[[ 1.]
+ [-2.]] 
+
+[[-2.]
+ [-1.]] 
+
+[[-3.]
+ [-4.]] 
+
+[[-1.4]
+ [-0.2]] 
+
+[[0.]
+ [0.]]
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Exercise 2:</strong> Find the eigenvalues and the corresponding eigenvectors of the following matrix <span class="math notranslate nohighlight">\(R\)</span> that represents the reflection transformation about the line <span class="math notranslate nohighlight">\( x_1 = x_2 \)</span>.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{equation}
+R = \left[ \begin{array}{cc} 0 &amp; 1 \\ 1 &amp; 0 \end{array}\right]
+\end{equation}
+\end{split}\]</div>
+<p><strong>Solution:</strong></p>
+<p>Let us consider the vector <span class="math notranslate nohighlight">\( V_1\)</span> as follows:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{equation}
+V_1 = \left[ \begin{array}{r} 1  \\ 1 \end{array}\right] \hspace{1cm}
+\end{equation}
+\end{split}\]</div>
+<p>We can see that <span class="math notranslate nohighlight">\( RV_1 = V_1\)</span>. So, <span class="math notranslate nohighlight">\(\lambda_1 = 1\)</span> is one of the eigenvalues of <span class="math notranslate nohighlight">\(R\)</span>.</p>
+<p>Similarly, let us consider the vector <span class="math notranslate nohighlight">\(V_2\)</span> as follows:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{equation}
+V_2 = \left[ \begin{array}{r} -1 \\ 1 \end{array}\right] \hspace{1cm}
+\end{equation}
+\end{split}\]</div>
+<p>We observe that <span class="math notranslate nohighlight">\(RV_2 = -V_2\)</span>.</p>
+<p>So, <span class="math notranslate nohighlight">\(\lambda_2 = -1\)</span> is another eigenvalue of <span class="math notranslate nohighlight">\(R\)</span>.</p>
+<p>Therefore, we can say that there are two eigenvalues of the matrix <span class="math notranslate nohighlight">\(R\)</span> i.e <span class="math notranslate nohighlight">\(\lambda_1 = 1\)</span>, <span class="math notranslate nohighlight">\(\lambda_2 = -1\)</span>. The vector <span class="math notranslate nohighlight">\(V_1\)</span> and all its scalar multiples are eigenvectors associated with <span class="math notranslate nohighlight">\(\lambda_1\)</span>, <span class="math notranslate nohighlight">\(V_2\)</span> and all its scalar multiples are eigenvectors associated with <span class="math notranslate nohighlight">\(\lambda_2\)</span>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## Building matrix R and vectors V_1,V_2:</span>
+
+<span class="n">V_1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">],[</span><span class="mi">1</span><span class="p">]])</span>
+<span class="n">V_2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">],[</span><span class="o">-</span><span class="mi">1</span><span class="p">]])</span>
+<span class="n">R</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">]])</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;RV_1: </span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">R</span><span class="nd">@V_1</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;RV_2: </span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">R</span><span class="nd">@V_2</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>RV_1: 
+ [[1]
+ [1]] 
+
+RV_2: 
+ [[-1]
+ [ 1]] 
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Exercise 3:</strong> Find a matrix that represents a vertical and horizontal stretch by a factor of <span class="math notranslate nohighlight">\(2\)</span>. Then, find the eigenvalues and the eigenvectors associated with those eigenvalues. (You may have to take a look at the Planar Transformations section  <a class="reference internal" href="Planar_Transformations.html"><span class="std std-doc">Planar Transformations</span></a>).</p>
+<p><strong>Solution:</strong></p>
+<p>Based on our discussion on Planar Transformations, the matrix that represents a vertical stretch and horizontal stretch is as follows:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{equation}
+A = \left[ \begin{array}{cc} 2 &amp; 0 \\ 0 &amp; 2 \end{array}\right]
+\end{equation}
+\end{split}\]</div>
+<p>Since the effect of the transformation is to scale all vectors by a factor of <span class="math notranslate nohighlight">\(2\)</span>, <em>all vectors</em> are eigenvectors of the matrix <span class="math notranslate nohighlight">\(A\)</span>.</p>
+<p>Let us consider the vector <span class="math notranslate nohighlight">\(V_1\)</span> as an example.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{equation}
+V_1 = \left[ \begin{array}{r} 1  \\ 1 \end{array}\right] \hspace{1cm}
+\end{equation}
+\end{split}\]</div>
+<p>We can see that <span class="math notranslate nohighlight">\(AV_1 = 2V_1\)</span>.  The only eigenvalue of <span class="math notranslate nohighlight">\(A\)</span> is <span class="math notranslate nohighlight">\(2\)</span>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## building matrix A and vectors V_1, V_2:</span>
+
+<span class="n">A</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">]])</span>
+<span class="n">V_1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">],[</span><span class="mi">1</span><span class="p">]])</span>
+<span class="n">V_2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">],[</span><span class="mi">0</span><span class="p">]])</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;AV_1: </span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">A</span><span class="nd">@V_1</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;AV_2: </span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">A</span><span class="nd">@V_2</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>AV_1: 
+ [[2]
+ [2]] 
+
+AV_2: 
+ [[2]
+ [0]] 
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Exercise 4:</strong> Find a matrix that represents reflection about the <span class="math notranslate nohighlight">\(x_1-\)</span>axis and find its eigenvalues and eigenvectors.</p>
+<p><strong>Solution:</strong></p>
+<p>Based on our discussion on Planar Transformations, the matrix that represents reflection about the <span class="math notranslate nohighlight">\(x_1\)</span> -axis is as follows:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{equation}
+B = \left[ \begin{array}{cc} 1 &amp; 0 \\ 0 &amp; -1 \end{array}\right]
+\end{equation}
+\end{split}\]</div>
+<p>Let us consider the vector <span class="math notranslate nohighlight">\(V_1\)</span> as follows:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{equation}
+V_1 = \left[ \begin{array}{r} 1  \\ 0 \end{array}\right] \hspace{1cm}
+\end{equation}
+\end{split}\]</div>
+<p>Since <span class="math notranslate nohighlight">\(BV_1 = V_1\)</span>, one of the eigenvalues of the matrix <span class="math notranslate nohighlight">\(B\)</span> is <span class="math notranslate nohighlight">\(\lambda_1  = 1\)</span> and <span class="math notranslate nohighlight">\(V_1\)</span> is the eigenvector associated with <span class="math notranslate nohighlight">\(\lambda_1\)</span>. Infact, all the scalar multiples of <span class="math notranslate nohighlight">\(V_1\)</span> are also eigenvectors associated with <span class="math notranslate nohighlight">\(\lambda_1\)</span>.</p>
+<p>Now, let us consider another vector <span class="math notranslate nohighlight">\(V_2\)</span> as follows:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{equation}
+V_2 = \left[ \begin{array}{r} 0  \\ 1 \end{array}\right] \hspace{1cm}
+\end{equation}
+\end{split}\]</div>
+<p>Since <span class="math notranslate nohighlight">\(BV_2 = -V_2\)</span>, other eigenvalue for the matrix <span class="math notranslate nohighlight">\(B\)</span> will be <span class="math notranslate nohighlight">\(\lambda_2 =-1\)</span> and <span class="math notranslate nohighlight">\(V_2\)</span> is the eigenvector associated with <span class="math notranslate nohighlight">\(\lambda_2\)</span>. All the scalar multiples of <span class="math notranslate nohighlight">\(V_2\)</span> are also eigenvectors associated with <span class="math notranslate nohighlight">\(\lambda_2\)</span>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## Building the matrix B and the vectors V_1, V_2:</span>
+
+<span class="n">B</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">]])</span>
+<span class="n">V_1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">],[</span><span class="mi">0</span><span class="p">]])</span>
+<span class="n">V_2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">],[</span><span class="mi">1</span><span class="p">]])</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;BV_1: </span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">B</span><span class="nd">@V_1</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;BV_2: </span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">B</span><span class="nd">@V_2</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>BV_1: 
+ [[1]
+ [0]] 
+
+BV_2: 
+ [[ 0]
+ [-1]] 
+</pre></div>
+</div>
+</div>
+</div>
+<section id="diagonalization">
+<h2>Diagonalization<a class="headerlink" href="#diagonalization" title="Link to this heading">#</a></h2>
+<p><strong>Exercise 1:</strong> Find the diagonalization of the matrix from <strong>Example 1</strong>.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{equation}
+A = \left[ \begin{array}{rr} 2 &amp; -1  \\ -1 &amp; 2 \end{array}\right]
+\end{equation}
+\end{split}\]</div>
+<p><strong>Solution:</strong> Recall that <span class="math notranslate nohighlight">\(A\)</span> has eigenvalues <span class="math notranslate nohighlight">\(\lambda_1 = 3\)</span> and <span class="math notranslate nohighlight">\(\lambda_2 = 1\)</span>, and corresponding eigenvectors <span class="math notranslate nohighlight">\(V_1\)</span> and <span class="math notranslate nohighlight">\(V_2\)</span> defined below.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{equation}
+V_1 = \left[ \begin{array}{r} 1 \\ -1 \end{array}\right] \hspace{2cm} V_2 = \left[ \begin{array}{r} 1 \\ 1 \end{array}\right]
+\end{equation}
+\end{split}\]</div>
+<p>To find the diagonalization of <span class="math notranslate nohighlight">\(A\)</span>, we need to find the diagonal matrix <span class="math notranslate nohighlight">\(D\)</span> with the eigenvalues of <span class="math notranslate nohighlight">\(A\)</span> along its diagonal, and the matrix <span class="math notranslate nohighlight">\(S\)</span> which has columns equal to the eigenvectors of <span class="math notranslate nohighlight">\(A\)</span>. We write them out below, and then verify that <span class="math notranslate nohighlight">\(A = SDS^{-1}\)</span>.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{equation}
+D = \left[ \begin{array}{r} 3 &amp; 0 \\ 0 &amp; 1 \end{array}\right] \hspace{2cm} S = \left[ \begin{array}{r} 1 &amp; 1 \\ -1 &amp; 1 \end{array}\right]
+\end{equation}
+\end{split}\]</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">A</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">2</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">],[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">]])</span>
+<span class="n">D</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">3</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]])</span>
+<span class="n">S</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">],[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">]])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">A</span> <span class="o">-</span> <span class="n">S</span><span class="nd">@D@lag</span><span class="o">.</span><span class="n">Inverse</span><span class="p">(</span><span class="n">S</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[[0. 0.]
+ [0. 0.]]
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Exercise 2:</strong> Find the diagonalization of the following matrix.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{equation}
+B = \left[ \begin{array}{rrr} 2 &amp; 0 &amp; 0  \\ 3 &amp; -2 &amp; 1 \\  1 &amp; 0 &amp; 1\end{array}\right]
+\end{equation}
+\end{split}\]</div>
+<p><strong>Solution:</strong> First we must find the eigenvectors of <span class="math notranslate nohighlight">\(B\)</span> and their corresponding eigenvalues. We make use of the <span class="math notranslate nohighlight">\(\texttt{eig}\)</span> function to do this.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">B</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="mi">3</span><span class="p">,</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">],[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]])</span>
+<span class="n">evalues</span><span class="p">,</span><span class="n">evectors</span> <span class="o">=</span> <span class="n">sla</span><span class="o">.</span><span class="n">eig</span><span class="p">(</span><span class="n">B</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">evalues</span><span class="p">,</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">evectors</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[-2.+0.j  1.+0.j  2.+0.j] 
+
+[[0.         0.         0.57735027]
+ [1.         0.31622777 0.57735027]
+ [0.         0.9486833  0.57735027]]
+</pre></div>
+</div>
+</div>
+</div>
+<p><span class="math notranslate nohighlight">\(S\)</span> is equivalent to the matrix of eigenvectors above, so all we have to do is write out <span class="math notranslate nohighlight">\(D\)</span> and then verify that <span class="math notranslate nohighlight">\(B = SDS^{-1}\)</span>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">D</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">]])</span>
+<span class="n">S</span> <span class="o">=</span> <span class="n">evectors</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">B</span> <span class="o">-</span> <span class="n">S</span><span class="nd">@D@lag</span><span class="o">.</span><span class="n">Inverse</span><span class="p">(</span><span class="n">S</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[[0. 0. 0.]
+ [0. 0. 0.]
+ [0. 0. 0.]]
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Exercise 3:</strong> Write a function that accepts an <span class="math notranslate nohighlight">\(n\times n\)</span> matrix <span class="math notranslate nohighlight">\(A\)</span> as an argument, and returns the three matrices <span class="math notranslate nohighlight">\(S\)</span>, <span class="math notranslate nohighlight">\(D\)</span>, and <span class="math notranslate nohighlight">\(S^{-1}\)</span> such that <span class="math notranslate nohighlight">\(A=SDS^{-1}\)</span>.  Make use of the <span class="math notranslate nohighlight">\(\texttt{eig}\)</span> function in SciPy.</p>
+<p><strong>Solution:</strong> We write a function that finds the diagonalization of an <span class="math notranslate nohighlight">\(n \times n\)</span> matrix <span class="math notranslate nohighlight">\(A\)</span> and then test it on the matrix <span class="math notranslate nohighlight">\(B\)</span> defined in exercise 2 to check that it works.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">Diagonalization</span><span class="p">(</span><span class="n">A</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Diagonalization(A)</span>
+<span class="sd">    </span>
+<span class="sd">    Diagonalization takes an nxn matrix A and computes the diagonalization</span>
+<span class="sd">    of A. There is no error checking to ensure that the eigenvectors of A </span>
+<span class="sd">    form a linearly independent set.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    A : NumPy array object of dimension nxn</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    S :        NumPy array object of dimension nxn</span>
+<span class="sd">    D :        NumPy array object of dimension nxn</span>
+<span class="sd">    S_inverse: Numpy array object of dimension nxn</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="n">n</span> <span class="o">=</span> <span class="n">A</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>  <span class="c1"># n is number of rows and columns in A</span>
+    <span class="n">D</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">),</span><span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;complex128&#39;</span><span class="p">)</span>
+    <span class="n">evalues</span><span class="p">,</span><span class="n">evectors</span> <span class="o">=</span> <span class="n">sla</span><span class="o">.</span><span class="n">eig</span><span class="p">(</span><span class="n">A</span><span class="p">)</span>
+    
+    <span class="n">S</span> <span class="o">=</span> <span class="n">evectors</span>
+    <span class="n">S_inverse</span> <span class="o">=</span> <span class="n">lag</span><span class="o">.</span><span class="n">Inverse</span><span class="p">(</span><span class="n">S</span><span class="p">)</span>
+    
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">n</span><span class="p">,</span><span class="mi">1</span><span class="p">):</span>
+        <span class="n">D</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">evalues</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+        
+    <span class="k">return</span> <span class="n">S</span><span class="p">,</span><span class="n">D</span><span class="p">,</span><span class="n">S_inverse</span>
+
+<span class="n">B</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="mi">3</span><span class="p">,</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">],[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]])</span>
+<span class="n">S</span><span class="p">,</span> <span class="n">D</span><span class="p">,</span> <span class="n">S_inverse</span> <span class="o">=</span> <span class="n">Diagonalization</span><span class="p">(</span><span class="n">B</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">S</span><span class="p">,</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">D</span><span class="p">,</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">S_inverse</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[[0.         0.         0.57735027]
+ [1.         0.31622777 0.57735027]
+ [0.         0.9486833  0.57735027]] 
+
+[[-2.+0.j  0.+0.j  0.+0.j]
+ [ 0.+0.j  1.+0.j  0.+0.j]
+ [ 0.+0.j  0.+0.j  2.+0.j]] 
+
+[[-0.66666667  1.         -0.33333333]
+ [-1.05409255  0.          1.05409255]
+ [ 1.73205081  0.          0.        ]]
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Exercise 4:</strong> Construct a <span class="math notranslate nohighlight">\(3\times 3\)</span> matrix that is not diagonal and has eigenvalues 2, 4, and 10.</p>
+<p><strong>Solution:</strong> If we want to construct a matrix <span class="math notranslate nohighlight">\(C\)</span> with eigenvalues 2, 4, and 10, then <span class="math notranslate nohighlight">\(D\)</span> must be a diagonal matrix with those eigenvalues as its diagonal entries. If we let <span class="math notranslate nohighlight">\(S\)</span> be any <span class="math notranslate nohighlight">\(3 \times 3\)</span> non diagonal matrix with linearly independent columns, then <span class="math notranslate nohighlight">\(C = SDS^{-1}\)</span> will give us our desired matrix. We define <span class="math notranslate nohighlight">\(D\)</span> and <span class="math notranslate nohighlight">\(S\)</span> below, calculate <span class="math notranslate nohighlight">\(C\)</span>, and then check our answer using the <span class="math notranslate nohighlight">\(\texttt{eig}\)</span> function.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{equation}
+D = \left[ \begin{array}{rrr} 2 &amp; 0 &amp; 0  \\ 0 &amp; 4 &amp; 0 \\  0 &amp; 0 &amp; 10\end{array}\right] \hspace{2cm} S = \left[ \begin{array}{rrr} 1 &amp; 1 &amp; 0  \\ 0 &amp; 1 &amp; 1 \\  1 &amp; 0 &amp; 1\end{array}\right]
+\end{equation}
+\end{split}\]</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">D</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="mi">0</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">10</span><span class="p">]])</span>
+<span class="n">S</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">],[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]])</span>
+<span class="n">C</span> <span class="o">=</span> <span class="n">S</span><span class="nd">@D@lag</span><span class="o">.</span><span class="n">Inverse</span><span class="p">(</span><span class="n">S</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">C</span><span class="p">,</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+
+<span class="n">evalues</span><span class="p">,</span><span class="n">evectors</span> <span class="o">=</span> <span class="n">sla</span><span class="o">.</span><span class="n">eig</span><span class="p">(</span><span class="n">C</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">evalues</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[[ 3.  1. -1.]
+ [-3.  7.  3.]
+ [-4.  4.  6.]] 
+
+[10.+0.j  2.+0.j  4.+0.j]
+</pre></div>
+</div>
+</div>
+</div>
+<p>The eigenvalues determined by <span class="math notranslate nohighlight">\(\texttt{eig}\)</span> appear in a different order than we had originally, but are correct.</p>
+<p><strong>Exercise 5:</strong> Suppose that <span class="math notranslate nohighlight">\(C = QDQ^{-1}\)</span> where</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{equation}
+Q = \left[ \begin{array}{c|c|c} &amp; &amp; \\ U &amp; V &amp; W \\ &amp; &amp; \end{array} \right] \hspace{2cm} D = \left[ \begin{array}{rrr} 0 &amp; 0 &amp; 0  \\ 0 &amp; 3 &amp; 0 \\  0 &amp; 0 &amp; 5 \end{array}\right]
+\end{equation}
+\end{split}\]</div>
+<p><span class="math notranslate nohighlight">\((a)\)</span> Give a basis for <span class="math notranslate nohighlight">\(\mathcal{N}(C)\)</span></p>
+<p><strong>Solution:</strong> Consider the set <span class="math notranslate nohighlight">\(\{U,V,W\}\)</span>. This set of three vectors is linearly independent, so it forms a basis for <span class="math notranslate nohighlight">\(\mathbb{R}^3\)</span> and thus any vector <span class="math notranslate nohighlight">\(X \in \mathbb{R}^3\)</span> can be expressed as a linear combination <span class="math notranslate nohighlight">\(X = aU + bV +cW\)</span> for some scalars <span class="math notranslate nohighlight">\(a,b,\)</span> and <span class="math notranslate nohighlight">\(c\)</span>. Then we have</p>
+<div class="math notranslate nohighlight">
+\[
+\begin{equation}
+CX \hspace{0.2cm} = \hspace{0.2cm} C(aU + bV + cW) \hspace{0.2cm} = \hspace{0.2cm} aCU + bCV + cCW \hspace{0.2cm} = \hspace{0.2cm} b3V + c5W
+\end{equation}
+\]</div>
+<p>Since <span class="math notranslate nohighlight">\(V\)</span> and <span class="math notranslate nohighlight">\(W\)</span> are linearly independent, so are <span class="math notranslate nohighlight">\(3V\)</span> and <span class="math notranslate nohighlight">\(5W\)</span>, and therefore the only way that <span class="math notranslate nohighlight">\(b3V + c5W = 0\)</span> is if <span class="math notranslate nohighlight">\(b = c = 0\)</span>. This means that <span class="math notranslate nohighlight">\(CX = 0\)</span> when <span class="math notranslate nohighlight">\(b = c = 0\)</span> and there is no restriction on <span class="math notranslate nohighlight">\(a\)</span>. But then any element in the null space of <span class="math notranslate nohighlight">\(C\)</span> can be expressed as a scalar multiple of <span class="math notranslate nohighlight">\(U\)</span> and thus <span class="math notranslate nohighlight">\(\{U\}\)</span> is a basis for <span class="math notranslate nohighlight">\(\mathcal{N}(C)\)</span>.</p>
+<p><span class="math notranslate nohighlight">\((b)\)</span> Find all the solutions to <span class="math notranslate nohighlight">\(CX = V + W\)</span></p>
+<p><strong>Solution:</strong> Let <span class="math notranslate nohighlight">\(X\)</span> be an arbitrary vector in <span class="math notranslate nohighlight">\(\mathbb{R}^3\)</span>. Since the set of three vectors <span class="math notranslate nohighlight">\(\{U,V,W\}\)</span> are linearly independent, they form a basis for <span class="math notranslate nohighlight">\(\mathbb{R}^3\)</span>, and thus we can write <span class="math notranslate nohighlight">\(X = aU + bV + cW\)</span> for some scalars <span class="math notranslate nohighlight">\(a,b,\)</span> and <span class="math notranslate nohighlight">\(c\)</span>. Then we have</p>
+<div class="math notranslate nohighlight">
+\[
+\begin{equation}
+CX \hspace{0.2cm} = \hspace{0.2cm} C(aU + bV + cW) \hspace{0.2cm} = \hspace{0.2cm} aCU + bCV + cCW \hspace{0.2cm} = \hspace{0.2cm} b3V + c5W
+\end{equation}
+\]</div>
+<p>This whole thing is equal to <span class="math notranslate nohighlight">\(V+W\)</span> when <span class="math notranslate nohighlight">\(b = \frac{1}{3}\)</span>, <span class="math notranslate nohighlight">\(c = \frac{1}{5}\)</span>, and is independent of <span class="math notranslate nohighlight">\(a\)</span>. Therefore the solutions to <span class="math notranslate nohighlight">\(CX = V + W\)</span> are the vectors of the form <span class="math notranslate nohighlight">\(X = aU + \frac{1}{3}V + \frac{1}{5}W\)</span> where <span class="math notranslate nohighlight">\(a\)</span> is any real number.</p>
+</section>
+<section id="approximating-eigenvalues">
+<h2>Approximating Eigenvalues<a class="headerlink" href="#approximating-eigenvalues" title="Link to this heading">#</a></h2>
+<p><strong>Exercise 1:</strong> Let <span class="math notranslate nohighlight">\(A\)</span> be the matrix from the Inverse Power Method example.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{equation}
+A = \left[ \begin{array}{rrr} 9 &amp; -1 &amp; -3 \\ 0 &amp; 6 &amp; 0 \\ -6 &amp; 3 &amp; 6 \end{array}\right]
+\end{equation}
+\end{split}\]</div>
+<p><span class="math notranslate nohighlight">\((a)\)</span> Use the Power Method to approximate the largest eigenvalue <span class="math notranslate nohighlight">\(\lambda_1\)</span>.  Verify that the exact value of <span class="math notranslate nohighlight">\(\lambda_1\)</span> is 12.</p>
+<p><strong>Solution:</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">A</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">9</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">3</span><span class="p">],[</span><span class="mi">0</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="o">-</span><span class="mi">6</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">6</span><span class="p">]])</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">],[</span><span class="mi">1</span><span class="p">],[</span><span class="mi">0</span><span class="p">]])</span>
+
+<span class="n">m</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">tolerance</span> <span class="o">=</span> <span class="mf">0.0001</span>
+<span class="n">MAX_ITERATIONS</span> <span class="o">=</span> <span class="mi">100</span>
+
+<span class="c1">## Compute difference in stopping condition</span>
+<span class="c1">## Assign Y = AX to avoid computing AX multiple times</span>
+<span class="n">Y</span> <span class="o">=</span> <span class="n">A</span><span class="nd">@X</span>
+<span class="n">difference</span> <span class="o">=</span> <span class="n">Y</span> <span class="o">-</span> <span class="n">lag</span><span class="o">.</span><span class="n">Magnitude</span><span class="p">(</span><span class="n">Y</span><span class="p">)</span><span class="o">*</span><span class="n">X</span>
+
+<span class="k">while</span> <span class="p">(</span><span class="n">m</span> <span class="o">&lt;</span> <span class="n">MAX_ITERATIONS</span> <span class="ow">and</span> <span class="n">lag</span><span class="o">.</span><span class="n">Magnitude</span><span class="p">(</span><span class="n">difference</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">tolerance</span><span class="p">):</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="n">Y</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="n">X</span><span class="o">/</span><span class="n">lag</span><span class="o">.</span><span class="n">Magnitude</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+
+    <span class="c1">## Compute difference in stopping condition</span>
+    <span class="n">Y</span> <span class="o">=</span> <span class="n">A</span><span class="nd">@X</span>
+    <span class="n">difference</span> <span class="o">=</span> <span class="n">Y</span> <span class="o">-</span> <span class="n">lag</span><span class="o">.</span><span class="n">Magnitude</span><span class="p">(</span><span class="n">Y</span><span class="p">)</span><span class="o">*</span><span class="n">X</span>
+    
+    <span class="n">m</span> <span class="o">=</span> <span class="n">m</span> <span class="o">+</span> <span class="mi">1</span>
+    
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Eigenvector is approximately:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Magnitude of the eigenvalue is approximately:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">lag</span><span class="o">.</span><span class="n">Magnitude</span><span class="p">(</span><span class="n">Y</span><span class="p">),</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Eigenvector is approximately:
+[[-7.07103544e-01]
+ [ 9.71065612e-06]
+ [ 7.07110018e-01]] 
+
+Magnitude of the eigenvalue is approximately:
+12.000013732475342 
+</pre></div>
+</div>
+</div>
+</div>
+<p>It appears that the first entry of <span class="math notranslate nohighlight">\(X\)</span> is equal to the third multiplied by <span class="math notranslate nohighlight">\(-1\)</span>. If we set the first entry to be 1 and the third entry to be -1, we can calculate the following product and see that <span class="math notranslate nohighlight">\(\lambda_1\)</span> is indeed 12.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{equation}
+AX = \left[ \begin{array}{rrr} 9 &amp; -1 &amp; -3 \\ 0 &amp; 6 &amp; 0 \\ -6 &amp; 3 &amp; 6 \end{array}\right]
+\left[ \begin{array}{r} 1\\ 0 \\ -1 \end{array}\right] =
+\left[ \begin{array}{r} 12\\ 0 \\ -12 \end{array}\right] = 12X
+\end{equation}
+\end{split}\]</div>
+<p><span class="math notranslate nohighlight">\((b)\)</span> Apply the Inverse Power Method with a shift of <span class="math notranslate nohighlight">\(\mu = 10\)</span>.  Explain why the results differ from those in the example.</p>
+<p><strong>Solution:</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">A</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">9</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">3</span><span class="p">],[</span><span class="mi">0</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="o">-</span><span class="mi">6</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">6</span><span class="p">]])</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">],[</span><span class="mi">1</span><span class="p">],[</span><span class="mi">0</span><span class="p">]])</span>
+
+<span class="n">m</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">tolerance</span> <span class="o">=</span> <span class="mf">0.0001</span>
+<span class="n">MAX_ITERATIONS</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="n">difference</span> <span class="o">=</span> <span class="n">X</span>
+
+<span class="n">A</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">9</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">3</span><span class="p">],[</span><span class="mi">0</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="o">-</span><span class="mi">6</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">6</span><span class="p">]])</span>
+<span class="n">I</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">mu</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">Shifted_A</span> <span class="o">=</span> <span class="n">A</span><span class="o">-</span><span class="n">mu</span><span class="o">*</span><span class="n">I</span>
+<span class="n">LU_factorization</span> <span class="o">=</span> <span class="n">sla</span><span class="o">.</span><span class="n">lu_factor</span><span class="p">(</span><span class="n">Shifted_A</span><span class="p">)</span>
+
+<span class="k">while</span> <span class="p">(</span><span class="n">m</span> <span class="o">&lt;</span> <span class="n">MAX_ITERATIONS</span> <span class="ow">and</span> <span class="n">lag</span><span class="o">.</span><span class="n">Magnitude</span><span class="p">(</span><span class="n">difference</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">tolerance</span><span class="p">):</span>
+    <span class="n">X_previous</span> <span class="o">=</span> <span class="n">X</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="n">sla</span><span class="o">.</span><span class="n">lu_solve</span><span class="p">(</span><span class="n">LU_factorization</span><span class="p">,</span><span class="n">X</span><span class="p">)</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="n">X</span><span class="o">/</span><span class="n">lag</span><span class="o">.</span><span class="n">Magnitude</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+
+    <span class="c1">## Compute difference in stopping condition</span>
+    <span class="n">difference</span> <span class="o">=</span> <span class="n">X</span> <span class="o">-</span> <span class="n">X_previous</span>
+    
+    <span class="n">m</span> <span class="o">=</span> <span class="n">m</span> <span class="o">+</span> <span class="mi">1</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Eigenvector is approximately:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Eigenvalue of A is approximately:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">lag</span><span class="o">.</span><span class="n">Magnitude</span><span class="p">(</span><span class="n">A</span><span class="nd">@X</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Eigenvector is approximately:
+[[-7.07113254e-01]
+ [-1.94211789e-05]
+ [ 7.07100308e-01]] 
+
+Eigenvalue is A is approximately:
+11.99997253020264
+</pre></div>
+</div>
+</div>
+</div>
+<p>The Inverse Power Method with a shift of <span class="math notranslate nohighlight">\(\mu\)</span> finds the eigenvalue closest to <span class="math notranslate nohighlight">\(\mu\)</span>. <span class="math notranslate nohighlight">\(A\)</span> has three eigenvalues, namely 3, 6, and 12, of which 10 is closest to 12 and 7.5 is closest to 6. This is why when we used <span class="math notranslate nohighlight">\(\lambda = 7.5\)</span> in the example we got the eigenvalue 6, but when we used <span class="math notranslate nohighlight">\(\lambda = 10\)</span> we got the eigenvalue 12.</p>
+<p><span class="math notranslate nohighlight">\((c)\)</span> Apply the Inverse Power Method with a shift of <span class="math notranslate nohighlight">\(\mu = 7.5\)</span> and the initial vector given below.  Explain why the sequence of vectors approach the eigenvector corresponding to <span class="math notranslate nohighlight">\(\lambda_1\)</span></p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{equation}
+X^{(0)} = \left[ \begin{array}{r} 1 \\ 0  \\ 0 \end{array}\right]
+\end{equation}
+\end{split}\]</div>
+<p><strong>Solution:</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## Code solution here.</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="applications">
+<h2>Applications<a class="headerlink" href="#applications" title="Link to this heading">#</a></h2>
+<p><strong>Exercise 1:</strong> Experiment with a range of initial conditions in the infectious disease model to provide evidence that an equilibrium state is reached for all meaningful initial states.</p>
+<p>We will create a method that uses the model given in the example but takes in a vector representing the initial conditions, then outputs the graphs of the values over time. We will input several different sets of intial conditions and graph them, verifying that they all seem to converge upon the same equilibrium state.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">Iterate_SIRS</span><span class="p">(</span><span class="n">X</span><span class="p">):</span>
+
+    <span class="n">A</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">0.95</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">0.15</span><span class="p">],[</span><span class="mf">0.05</span><span class="p">,</span><span class="mf">0.8</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="mi">0</span><span class="p">,</span><span class="mf">0.2</span><span class="p">,</span><span class="mf">0.85</span><span class="p">]])</span>
+
+    <span class="c1">## T is final time</span>
+    <span class="n">T</span> <span class="o">=</span> <span class="mi">20</span>
+
+    <span class="c1">## The first column of results contains the initial values </span>
+    <span class="n">results</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">T</span><span class="p">):</span>
+        <span class="n">X</span> <span class="o">=</span> <span class="n">A</span><span class="nd">@X</span>
+        <span class="n">results</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">((</span><span class="n">results</span><span class="p">,</span><span class="n">X</span><span class="p">))</span>
+
+    <span class="c1">## t contains the time indices 0, 1, 2, ..., T</span>
+    <span class="n">t</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">T</span><span class="p">,</span><span class="n">T</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+    <span class="c1">## s, i, r values are the rows of the results array</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">results</span><span class="p">[</span><span class="mi">0</span><span class="p">,:]</span>
+    <span class="n">i</span> <span class="o">=</span> <span class="n">results</span><span class="p">[</span><span class="mi">1</span><span class="p">,:]</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="n">results</span><span class="p">[</span><span class="mi">2</span><span class="p">,:]</span>
+
+    <span class="n">fig</span><span class="p">,</span><span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+
+    <span class="c1">## The optional label keyword argument provides text that is used to create a legend</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">s</span><span class="p">,</span><span class="s1">&#39;b+&#39;</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s2">&quot;Susceptible&quot;</span><span class="p">);</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">i</span><span class="p">,</span><span class="s1">&#39;rx&#39;</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s2">&quot;Infectious&quot;</span><span class="p">);</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">r</span><span class="p">,</span><span class="s1">&#39;g+&#39;</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s2">&quot;Recovered&quot;</span><span class="p">);</span>
+
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mf">1.1</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">();</span>
+    
+<span class="n">Iterate_SIRS</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">0.95</span><span class="p">],[</span><span class="mf">0.05</span><span class="p">],[</span><span class="mi">0</span><span class="p">]]))</span>
+<span class="n">Iterate_SIRS</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">0.7</span><span class="p">],[</span><span class="mf">0.05</span><span class="p">],[</span><span class="mf">0.25</span><span class="p">]]))</span>
+<span class="n">Iterate_SIRS</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">0.3</span><span class="p">],[</span><span class="mf">0.4</span><span class="p">],[</span><span class="mf">0.3</span><span class="p">]]))</span>
+<span class="n">Iterate_SIRS</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">0.1</span><span class="p">],[</span><span class="mf">0.8</span><span class="p">],[</span><span class="mf">0.1</span><span class="p">]]))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/1518db3e8aef0adbd8917769ef179d0a4eb50c83b2aec3a57bdedb00f99b26bd.png" src="_images/1518db3e8aef0adbd8917769ef179d0a4eb50c83b2aec3a57bdedb00f99b26bd.png" />
+<img alt="_images/e5671b05263dda182540e00cc71164cc69c63f0f01417db80edc00bf937a4516.png" src="_images/e5671b05263dda182540e00cc71164cc69c63f0f01417db80edc00bf937a4516.png" />
+<img alt="_images/34434a290c62138d99e74f2cc0e359667c072e254544abd1eabbacb39e0cb6ef.png" src="_images/34434a290c62138d99e74f2cc0e359667c072e254544abd1eabbacb39e0cb6ef.png" />
+<img alt="_images/7103946349e2d36d7c2c85ed5961cf904594062e8e631ac365182533337872cb.png" src="_images/7103946349e2d36d7c2c85ed5961cf904594062e8e631ac365182533337872cb.png" />
+</div>
+</div>
+<p>The values of <span class="math notranslate nohighlight">\(s_{20}, i_{20},\)</span> and <span class="math notranslate nohighlight">\(r_{20}\)</span> see to be nearly equal, so it appears that regardless of the initial conditions, the SIRS model always converges to the same equilibrium state.</p>
+<p><strong>Exercise 2:</strong> Perform an analysis similar to that in the example for the following infectious disease model.  In this model the rate at which individuals move from the Recovered category to the Susceptible category is less than that in the example.  Make a plot similar to that in the example and also calculate the theoretical equilibrium values for <span class="math notranslate nohighlight">\(s\)</span>, <span class="math notranslate nohighlight">\(i\)</span>, and <span class="math notranslate nohighlight">\(r\)</span>.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{equation}
+X_t = \left[ \begin{array}{r} s_t \\ i_t \\ r_t  \end{array}\right] =
+\left[ \begin{array}{rrr} 0.95 &amp; 0 &amp; 0.05 \\ 0.05 &amp; 0.80 &amp; 0 \\ 0 &amp; 0.20 &amp; 0.95 \end{array}\right]
+\left[ \begin{array}{r} s_{t-1} \\ i_{t-1} \\ r_{t-1}  \end{array}\right]=
+AX_{t-1}
+\end{equation}
+\end{split}\]</div>
+<p>We will plot the first 50 iterations of <span class="math notranslate nohighlight">\(s_t,i_t,\)</span> and <span class="math notranslate nohighlight">\(r_t\)</span> using the same initial conditions as the example.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">A</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">0.95</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">],[</span><span class="mf">0.05</span><span class="p">,</span><span class="mf">0.8</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="mi">0</span><span class="p">,</span><span class="mf">0.2</span><span class="p">,</span><span class="mf">0.95</span><span class="p">]])</span>
+
+<span class="c1">## T is final time</span>
+<span class="n">T</span> <span class="o">=</span> <span class="mi">50</span>
+<span class="c1">## X at time 0</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">0.95</span><span class="p">],[</span><span class="mf">0.05</span><span class="p">],[</span><span class="mi">0</span><span class="p">]])</span>
+
+<span class="c1">## The first column of results contains the initial values </span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">T</span><span class="p">):</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="n">A</span><span class="nd">@X</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">((</span><span class="n">results</span><span class="p">,</span><span class="n">X</span><span class="p">))</span>
+
+<span class="c1">## t contains the time indices 0, 1, 2, ..., T</span>
+<span class="n">t</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">T</span><span class="p">,</span><span class="n">T</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+<span class="c1">## s, i, r values are the rows of the results array</span>
+<span class="n">s</span> <span class="o">=</span> <span class="n">results</span><span class="p">[</span><span class="mi">0</span><span class="p">,:]</span>
+<span class="n">i</span> <span class="o">=</span> <span class="n">results</span><span class="p">[</span><span class="mi">1</span><span class="p">,:]</span>
+<span class="n">r</span> <span class="o">=</span> <span class="n">results</span><span class="p">[</span><span class="mi">2</span><span class="p">,:]</span>
+
+<span class="n">fig</span><span class="p">,</span><span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+
+<span class="c1">## The optional label keyword argument provides text that is used to create a legend</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">s</span><span class="p">,</span><span class="s1">&#39;b+&#39;</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s2">&quot;Susceptible&quot;</span><span class="p">);</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">i</span><span class="p">,</span><span class="s1">&#39;rx&#39;</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s2">&quot;Infectious&quot;</span><span class="p">);</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">r</span><span class="p">,</span><span class="s1">&#39;g+&#39;</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s2">&quot;Recovered&quot;</span><span class="p">);</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mf">1.1</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/c34e586c63a64500fc06ee7b5d34fe182f550ad6b526d2efe78193473cca0eaf.png" src="_images/c34e586c63a64500fc06ee7b5d34fe182f550ad6b526d2efe78193473cca0eaf.png" />
+</div>
+</div>
+<p>It  appears that the population has reached an equilibrium after about 45 weeks, but one that was different than in the example. The proportion of the population that is susceptible seems to be equal to the porportion of the population that is recovered at roughly 45%, and the proportion that is infectious seems to be about 10%. To find the true equilibrium values, we calculate the <span class="math notranslate nohighlight">\(\texttt{RREF}\)</span> of the augmented matrix <span class="math notranslate nohighlight">\([(A-I)|0]\)</span>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">I</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">ZERO</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+<span class="n">augmented_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">((</span><span class="n">A</span><span class="o">-</span><span class="n">I</span><span class="p">,</span><span class="n">ZERO</span><span class="p">))</span>
+<span class="n">reduced_matrix</span> <span class="o">=</span> <span class="n">lag</span><span class="o">.</span><span class="n">FullRowReduction</span><span class="p">(</span><span class="n">augmented_matrix</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">reduced_matrix</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[[ 1.    0.   -1.    0.  ]
+ [ 0.    1.   -0.25  0.  ]
+ [ 0.    0.    0.    0.  ]]
+</pre></div>
+</div>
+</div>
+</div>
+<p>In the reduced system for the equilibrium values <span class="math notranslate nohighlight">\(s\)</span>, <span class="math notranslate nohighlight">\(i\)</span>, and <span class="math notranslate nohighlight">\(r\)</span>, we can take <span class="math notranslate nohighlight">\(r\)</span> as the free variable and write <span class="math notranslate nohighlight">\(s=r\)</span> and <span class="math notranslate nohighlight">\(i=0.25r\)</span>.  For any value of <span class="math notranslate nohighlight">\(r\)</span>, a vector of the following form is an eigenvector for <span class="math notranslate nohighlight">\(A-I\)</span>, corresponding to the eigenvalue one.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{equation}
+r\left[ \begin{array}{r} 1 \\ 0.25 \\ 1  \end{array}\right]
+\end{equation}
+\end{split}\]</div>
+<p>If we add the constraint that <span class="math notranslate nohighlight">\(s + i + r = 1\)</span>, then we get the equation <span class="math notranslate nohighlight">\(r + 0.25r + r = 1\)</span> which gives the unique equilibrium values of <span class="math notranslate nohighlight">\(r = 4/9\)</span>, <span class="math notranslate nohighlight">\(s=4/9\)</span>, and <span class="math notranslate nohighlight">\(i=1/9\)</span>.  If we carry out a large number of iterations, we see that the computed values are very close to the theoretical equilibrium values.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## T is final time</span>
+<span class="n">T</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="c1">## X at time 0</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">0.95</span><span class="p">],[</span><span class="mf">0.05</span><span class="p">],[</span><span class="mi">0</span><span class="p">]])</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">T</span><span class="p">):</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="n">A</span><span class="nd">@X</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Computed values of s, i, r at time &quot;</span><span class="p">,</span><span class="n">T</span><span class="p">,</span><span class="s2">&quot;:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Computed values of s, i, r at time  100 :
+[[0.44444478]
+ [0.1111114 ]
+ [0.44444382]]
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "executablebooks/jupyter-book",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="Inner_Products_Solutions.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Inner Products</p>
+      </div>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#diagonalization">Diagonalization</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#approximating-eigenvalues">Approximating Eigenvalues</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#applications">Applications</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Aditya Chaturvedi
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

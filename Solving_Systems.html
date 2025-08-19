@@ -1,0 +1,920 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Solving Systems using Elimination &#8212; Jupyter Guide to Linear Algebra</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'Solving_Systems';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Inverse Matrices" href="Inverse_Matrices.html" />
+    <link rel="prev" title="Matrix Algebra" href="Matrix_Algebra.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/reflection_logo.png" class="logo__image only-light" alt="Jupyter Guide to Linear Algebra - Home"/>
+    <script>document.write(`<img src="_static/reflection_logo.png" class="logo__image only-dark" alt="Jupyter Guide to Linear Algebra - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    Welcome to the Jupyter Guide to Linear Algebra
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="Jupyter_Introduction.html">Introduction to Jupyter</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="Python_Introduction.html">Introduction to Python</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Numpy_Introduction.html">Introduction to NumPy and Matplotlib</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="Linear_Systems.html">Linear Systems</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="Gaussian_Elimination.html">Gaussian Elimination</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Matrix_Algebra.html">Matrix Algebra</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Solving Systems using Elimination</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Inverse_Matrices.html">Inverse Matrices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="LU_Factorization.html">LU Factorization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Applications.html">Applications of Linear Systems and Matrix Algebra</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="Vector_Spaces.html">Vector Spaces</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="General_Linear_Systems.html">General Linear Systems</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Linear_Combinations.html">Linear Combinations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Linear_Independence.html">Linear Independence</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Bases.html">Bases</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Vector_Space_Examples.html">Vector Space Examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Applications_VS.html">Applications of Vector Spaces</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="Linear_Transformations.html">Linear Transformations</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="Matrix_Representations.html">Matrix Representations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Planar_Transformations.html">Transformations in a Plane</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Applications_LT.html">Applications of Linear Transformations</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="Inner_Products.html">Inner Products</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="Orthogonalization.html">Orthogonalization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="QR_Factorization.html">QR Factorization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Orthogonal_Subspaces.html">Orthogonal Subspaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Least_Squares_Solutions.html">Least Squares Solutions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Projections.html">Projections</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Applications_IP.html">Applications of Inner Products</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="Eigenvalues.html">Eigenvalues</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="Diagonalization.html">Diagonalization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Approximating_Eigenvalues.html">Approximating Eigenvalues</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Applications_EV.html">Applications of Eigenvalues and Eigenvectors</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="Solutions.html">Solutions</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="Introduction_Solutions.html">Introduction to Jupyter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Linear_Systems_Solutions.html">Linear Systems</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Vector_Spaces_Solutions.html">Vector Spaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Linear_Transformations_Solutions.html">Linear Transformations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Inner_Products_Solutions.html">Inner Products</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Eigenvalues_Solutions.html">Eigenvalues</a></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li>
+<button onclick="initThebeSBT()"
+  class="btn btn-sm btn-launch-thebe dropdown-item"
+  title="Launch Thebe"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-play"></i>
+  </span>
+<span class="btn__text-container">Live Code</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/Solving_Systems.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Solving Systems using Elimination</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#back-substitution-function">Back substitution function</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#row-reduction-function">Row reduction function</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#solve-system-function">Solve system function</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">Exercises</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="solving-systems-using-elimination">
+<h1>Solving Systems using Elimination<a class="headerlink" href="#solving-systems-using-elimination" title="Link to this heading">#</a></h1>
+<p>In this section we discuss the code needed to solve the linear system <span class="math notranslate nohighlight">\(AX=B\)</span> using elimination.  We will restrict our objective to the case where <span class="math notranslate nohighlight">\(A\)</span> is a square <span class="math notranslate nohighlight">\(n\times n\)</span> matrix, and the system has exactly one solution. The more general case requires more knowledge of the underlying theory and will be addressed in a later chapter.</p>
+<p>When writing code to perform a complex problem, it is often a good idea to first break up the task, and write code to carry out smaller pieces.  Once we have code to reliably perform the small tasks, we can assemble the pieces to solve the larger problem.  In our case we will break down the solution method into two parts.</p>
+<ol class="arabic simple">
+<li><p>Carry out elimination on the associated augmented matrix.</p></li>
+<li><p>Perform back substitution on the triangular system produced by elimination.</p></li>
+</ol>
+<p>It is also beneficial to consider how we might write the code now so that we can reuse it for other tasks later.</p>
+<section id="back-substitution-function">
+<h2>Back substitution function<a class="headerlink" href="#back-substitution-function" title="Link to this heading">#</a></h2>
+<p>We will start with the back substitution step, since that is the easier part.  If the elimination step is successful, we will have an upper triangular system <span class="math notranslate nohighlight">\(UX=B\)</span> that has the following form.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{equation}
+\left[ \begin{array}{rrrr} * &amp; * &amp; * &amp; * \\ 0 &amp; * &amp; * &amp; * \\ 0 &amp; 0 &amp; * &amp; * \\ 0 &amp; 0 &amp; 0 &amp; * \end{array}\right]
+\left[ \begin{array}{r}  x_1 \\  x_2  \\ x_3 \\ x_4  \end{array}\right]=
+\left[ \begin{array}{r}  * \\  *  \\ * \\ *  \end{array}\right]
+\end{equation}
+\end{split}\]</div>
+<p>We will put the code in a function so that that it is easy to reuse later.  For this function, let’s suppose that we are given the upper triangular matrix <span class="math notranslate nohighlight">\(U\)</span> and the known vector <span class="math notranslate nohighlight">\(B\)</span> and we want to find the vector <span class="math notranslate nohighlight">\(X\)</span> so that <span class="math notranslate nohighlight">\(UX=B\)</span>.  Note we could make other assumptions, such as the matrix <span class="math notranslate nohighlight">\(U\)</span> having diagonal entries equal to 1.  The fewer such assumptions we make, the more useful the code will be later.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">BackSubstitution</span><span class="p">(</span><span class="n">U</span><span class="p">,</span><span class="n">B</span><span class="p">):</span>
+<span class="c1"># =============================================================================</span>
+<span class="c1">#     U is a NumPy array that represents an upper triangular square mxm matrix.  </span>
+<span class="c1">#     B is a NumPy array that represents an mx1 vector     </span>
+<span class="c1">#     BackSubstitution will return an mx1 vector that is the solution of the</span>
+<span class="c1">#     system UX=B.</span>
+<span class="c1"># =============================================================================</span>
+    <span class="n">m</span> <span class="o">=</span> <span class="n">U</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>  <span class="c1"># m is number of rows and columns in U</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">m</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+    
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">m</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">):</span>  <span class="c1"># Calculate entries of X backward from m-1 to 0</span>
+        <span class="n">X</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">B</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="n">m</span><span class="p">):</span>
+            <span class="n">X</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-=</span> <span class="n">U</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span><span class="o">*</span><span class="n">X</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">U</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">):</span>
+            <span class="n">X</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">/=</span> <span class="n">U</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">i</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Zero entry found in U pivot position&quot;</span><span class="p">,</span><span class="n">i</span><span class="p">,</span><span class="s2">&quot;.&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">X</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Before moving on, let’s test this function.  We can build a matrix with the proper triangular form, <em>choose a solution</em>, and then construct a system <span class="math notranslate nohighlight">\(UX=B\)</span> so that we know the solution.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Make up an upper triangular matrix.  Could we make a random upper triangular matrix here?  What could go wrong?</span>
+<span class="n">U</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">3</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">],[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="mi">3</span><span class="p">]])</span>  
+<span class="c1"># We will choose the solution X_true.  We can put in any numbers we like here. </span>
+<span class="n">X_true</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">3</span><span class="p">],[</span><span class="mi">4</span><span class="p">],[</span><span class="mi">3</span><span class="p">]])</span>
+<span class="n">B</span> <span class="o">=</span> <span class="n">U</span><span class="nd">@X_true</span>
+<span class="c1"># Call the function.  It should produce the same array as X_true if it works correctly.</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">BackSubstitution</span><span class="p">(</span><span class="n">U</span><span class="p">,</span><span class="n">B</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[[3.]
+ [4.]
+ [3.]]
+</pre></div>
+</div>
+</div>
+</div>
+<p>Before discussing the elimination step, we should make a note that this <span class="math notranslate nohighlight">\(\texttt{BackSubstitution}\)</span> function <em>will fail</em> to produce meaningful results if any of the diagonal entries of <span class="math notranslate nohighlight">\(U\)</span> are zero.  We should keep this in mind when using this code in the future.</p>
+</section>
+<section id="row-reduction-function">
+<h2>Row reduction function<a class="headerlink" href="#row-reduction-function" title="Link to this heading">#</a></h2>
+<p>Elimination is the larger and more complex part of the solution method.  It is also a common task that will arise in future sections, so we will want some code that we can reuse at a later point.  We want a function that will carry out all the steps of elimination, and just return the end result.  It is not necessary to see all the individual row operations that took place as part of the process.  Ideally we would like the function to carry out the elimination on arrays of any size or shape, and also be able to <em>make the decision</em> to perform row swaps when necessary.</p>
+<p>Let’s clarify the goal. The function should accept an arbitrary array and return an array that has the following properties.</p>
+<ol class="arabic simple">
+<li><p>The first nonzero entry in each row is a 1.  These entries are the pivots.</p></li>
+<li><p>Each pivot is located to the right of the pivots in all rows above it.</p></li>
+<li><p>The entries below each pivot are 0.</p></li>
+<li><p>Rows that are all zeros are located below rows that contain nonzero entries.</p></li>
+</ol>
+<p>Such a matrix is said to be in a <strong>row echelon form</strong>.  Here are three examples of matrices in the form that we seek.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{equation}
+\left[ \begin{array}{cccc} 1 &amp; * &amp; * &amp; * \\ 0 &amp; 1 &amp; * &amp; * \\ 0 &amp; 0 &amp; 1 &amp; * \end{array}\right]
+\end{equation}
+\end{split}\]</div>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{equation}
+\left[ \begin{array}{ccc} 1 &amp; * &amp; *  \\ 0 &amp; 0 &amp; 1  \\ 0 &amp; 0 &amp; 0 \end{array}\right]
+\end{equation}
+\end{split}\]</div>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{equation}
+\left[ \begin{array}{cccccc} 1 &amp; * &amp; * &amp; * &amp; * &amp; * \\ 0 &amp; 0 &amp; 1 &amp; * &amp; * &amp; * \\ 0 &amp; 0 &amp; 0 &amp; 1 &amp; * &amp; * \end{array}\right]
+\end{equation}
+\end{split}\]</div>
+<p>It is important to notice that each row can contain at most one pivot and each column can contain at most one pivot.</p>
+<p>Before presenting the code to find the row echelon form of a matrix, we first make a clarification about the matrices we work with when we are solving a system of the form <span class="math notranslate nohighlight">\(AX=B\)</span>.  We recall from the <a class="reference internal" href="Gaussian_Elimination.html"><span class="std std-doc">Gaussian Elimination</span></a> section that the same row operations needed to bring <span class="math notranslate nohighlight">\(A\)</span> to row echelon form must also be applied to <span class="math notranslate nohighlight">\(B\)</span>.  In practice we can join <span class="math notranslate nohighlight">\(A\)</span> and <span class="math notranslate nohighlight">\(B\)</span> together to form what we call an <strong>augmented matrix</strong>. We then carry out the row operations on this single matrix.  Here is an example of the augmented matrix, which we will write as <span class="math notranslate nohighlight">\([A|B]\)</span>, associated with the system <span class="math notranslate nohighlight">\(AX=B\)</span>.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{equation}
+AX = B \hspace{1cm} \left[ \begin{array}{rrr} 3 &amp; -1 \\ 5 &amp; 2 \end{array}\right]
+\left[ \begin{array}{r} x_1 \\ x_2 \end{array}\right]=
+\left[ \begin{array}{r} 0\\ 7  \end{array}\right] \hspace{1cm} \to \hspace{1cm}
+[A|B] = \left[ \begin{array}{rr|r} 3 &amp; -1 &amp; 0 \\ 5 &amp; 2 &amp; 7 \end{array}\right]
+\end{equation}
+\end{split}\]</div>
+<p>In our current objective, <span class="math notranslate nohighlight">\(A\)</span> is <span class="math notranslate nohighlight">\(n\times n\)</span>, which means that the augmented matrix we need to process will be <span class="math notranslate nohighlight">\(n\times(n+1)\)</span>.  We will also assume at this point that the system <span class="math notranslate nohighlight">\(AX=B\)</span> has a unique solution.  If this is true the augmented matrix will have a pivot in each of the first <span class="math notranslate nohighlight">\(n\)</span> columns, with the pivot positions lying along the diagonal line of entries starting at the top left entry.  If the row echelon form of the augmented matrix has a zero in any of these positions, our solution process breaks down as shown in the <a class="reference internal" href="Gaussian_Elimination.html"><span class="std std-doc">Gaussian Elimination</span></a> examples.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">laguide</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">lag</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">RowReduction</span><span class="p">(</span><span class="n">A</span><span class="p">):</span>
+<span class="c1"># =============================================================================</span>
+<span class="c1"># A is a NumPy array that represents an augmented matrix of dimension n x (n+1)</span>
+<span class="c1"># associated with a linear system.  RowReduction returns B, a NumPy array that</span>
+<span class="c1"># represents the row echelon form of A.  RowReduction may not return correct</span>
+<span class="c1"># results if the the matrix A does not have a pivot in each column.</span>
+<span class="c1"># =============================================================================</span>
+   
+    <span class="n">m</span> <span class="o">=</span> <span class="n">A</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>  <span class="c1"># A has m rows </span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">A</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>  <span class="c1"># It is assumed that A has m+1 columns</span>
+    
+    <span class="n">B</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">A</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;float64&#39;</span><span class="p">)</span>
+
+    <span class="c1"># For each step of elimination, we find a suitable pivot, move it into</span>
+    <span class="c1"># position and create zeros for all entries below.</span>
+    
+    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">m</span><span class="p">):</span>
+        <span class="c1"># Set pivot as (k,k) entry</span>
+        <span class="n">pivot</span> <span class="o">=</span> <span class="n">B</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">k</span><span class="p">]</span>
+        <span class="n">pivot_row</span> <span class="o">=</span> <span class="n">k</span>
+        
+        <span class="c1"># Find a suitable pivot if the (k,k) entry is zero</span>
+        <span class="k">while</span><span class="p">(</span><span class="n">pivot</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">pivot_row</span> <span class="o">&lt;</span> <span class="n">m</span><span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+            <span class="n">pivot_row</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="n">pivot</span> <span class="o">=</span> <span class="n">B</span><span class="p">[</span><span class="n">pivot_row</span><span class="p">][</span><span class="n">k</span><span class="p">]</span>
+            
+        <span class="c1"># Swap row if needed</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">pivot_row</span> <span class="o">!=</span> <span class="n">k</span><span class="p">):</span>
+            <span class="n">B</span> <span class="o">=</span> <span class="n">lag</span><span class="o">.</span><span class="n">RowSwap</span><span class="p">(</span><span class="n">B</span><span class="p">,</span><span class="n">k</span><span class="p">,</span><span class="n">pivot_row</span><span class="p">)</span>
+            
+        <span class="c1"># If pivot is nonzero, carry on with elimination in column k</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">pivot</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">):</span>
+            <span class="n">B</span> <span class="o">=</span> <span class="n">lag</span><span class="o">.</span><span class="n">RowScale</span><span class="p">(</span><span class="n">B</span><span class="p">,</span><span class="n">k</span><span class="p">,</span><span class="mf">1.</span><span class="o">/</span><span class="n">B</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">k</span><span class="p">])</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="n">m</span><span class="p">):</span>    
+                <span class="n">B</span> <span class="o">=</span> <span class="n">lag</span><span class="o">.</span><span class="n">RowAdd</span><span class="p">(</span><span class="n">B</span><span class="p">,</span><span class="n">k</span><span class="p">,</span><span class="n">i</span><span class="p">,</span><span class="o">-</span><span class="n">B</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">k</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Pivot could not be found in column&quot;</span><span class="p">,</span><span class="n">k</span><span class="p">,</span><span class="s2">&quot;.&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">B</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Note that in this routine we make use of the row operations written earlier.  Since those functions are not written in <em>this notebook</em>, we need to import them from the <span class="math notranslate nohighlight">\(\texttt{laguide}\)</span> module.</p>
+<p>Let’s test the routine on a random array.  Run the code on several random matrices of different sizes and shapes.  Does it always work?  Do you notice any unusual results?  Does it depend on the size or shape?  Does it depend on the range of numbers used?</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span> <span class="c1">## Try out RowReduction here.</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>If you run this test enough times, you are likely to come across an example where the results look a little different.  Here is one such case.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">NumericalReductionExample</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">7</span><span class="p">,</span><span class="o">-</span><span class="mi">6</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="o">-</span><span class="mi">8</span><span class="p">],[</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span><span class="o">-</span><span class="mi">7</span><span class="p">,</span><span class="mi">2</span><span class="p">],[</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">4</span><span class="p">,</span><span class="o">-</span><span class="mi">7</span><span class="p">,</span><span class="o">-</span><span class="mi">6</span><span class="p">],[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span><span class="o">-</span><span class="mi">8</span><span class="p">]])</span>
+<span class="n">reduction_result</span> <span class="o">=</span> <span class="n">RowReduction</span><span class="p">(</span><span class="n">NumericalReductionExample</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">reduction_result</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[[ 1.00000000e+00 -8.57142857e-01  8.57142857e-01 -1.14285714e+00]
+ [-0.00000000e+00  1.00000000e+00  5.84905660e-01  1.88679245e-01]
+ [-0.00000000e+00 -0.00000000e+00  1.00000000e+00  7.08463950e-01]
+ [-0.00000000e+00 -0.00000000e+00  1.30206303e-17  1.00000000e+00]]
+</pre></div>
+</div>
+</div>
+</div>
+<p>There are two things that we observe in this example.  First and most obvious is that the entries are all displayed in scientific notation.  The more disturbing observation is that the result is not exactly what we wanted.  The elimination process is supposed to produce zeros for all the entries below the main diagonal, but in this case there is one entry that is not <span class="math notranslate nohighlight">\(\texttt{0.000}\)</span>.  Instead it is an extremely small number, close to <span class="math notranslate nohighlight">\(10^{-17}\)</span>.</p>
+<p>At this point we might question the code and start looking for errors, but the problem here does not lie with the code.  The issue here is something more fundamental, and involves the way numbers are represented in the calculation and precision limitations of the computer.  For example, the number <span class="math notranslate nohighlight">\(1/3\)</span>, which has a decimal representation that consists of an infinite string of <span class="math notranslate nohighlight">\(3\)</span>s, cannot be represented <em>exactly</em> using a finite decimal representation.  This means that the arrays representing the system may be slightly incorrect even before any calculations are performed.  As the computer carries out the operations of arithmetic, the results must be rounded off to numbers that can be represented exactly.  This inherent limitation is known as <strong>roundoff error</strong> and it is the reason we do not get exactly zero for all of the entries below the diagonal.</p>
+<p>In this example, we can see that the entries that should be zero are indeed very close to zero.  If we want to display the results in a format that is more readable, we can use the NumPy function <span class="math notranslate nohighlight">\(\texttt{round}\)</span> to round all of the entries to a specified number of digits.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rounded_result</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">reduction_result</span><span class="p">,</span><span class="mi">6</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">rounded_result</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[[ 1.       -0.857143  0.857143 -1.142857]
+ [-0.        1.        0.584906  0.188679]
+ [-0.       -0.        1.        0.708464]
+ [-0.       -0.        0.        1.      ]]
+</pre></div>
+</div>
+</div>
+</div>
+<p>Note, we should only use the rounded results for the purpose of displaying results.  If we were to carry on and solve a system, or perform some other calculation, we should use the original results rather than the rounded version.</p>
+<p>Roundoff error can present a significant challenge if we work with large arrays, and the errors are allowed to accumulate and compound.  There are strategies that can be employed to mitigate this error, and ensure that usable results can be obtained.  Any software that must provide reliable results must account for roundoff error.  We will carry on with our simple version of elimination with the awareness that the results we get are not always <em>exactly correct</em>.</p>
+</section>
+<section id="solve-system-function">
+<h2>Solve system function<a class="headerlink" href="#solve-system-function" title="Link to this heading">#</a></h2>
+<p>Now we can combine the <span class="math notranslate nohighlight">\(\texttt{RowReduction}\)</span> and the <span class="math notranslate nohighlight">\(\texttt{BackSubstitution}\)</span> functions together to carry out the solution algorithm for the system <span class="math notranslate nohighlight">\(AX=B\)</span>.  Let us assume that the user of the function will supply <span class="math notranslate nohighlight">\(A\)</span> and <span class="math notranslate nohighlight">\(B\)</span>, and the function will return the solution <span class="math notranslate nohighlight">\(X\)</span>.  Here are the steps that need to be completed.</p>
+<ol class="arabic simple">
+<li><p>Build the associated augmented matrix.</p></li>
+<li><p>Apply <span class="math notranslate nohighlight">\(\texttt{RowReduction}\)</span>.</p></li>
+<li><p>Split the matrix.</p></li>
+<li><p>Apply <span class="math notranslate nohighlight">\(\texttt{BackSubstitution}\)</span> and return the result.</p></li>
+</ol>
+<p>Note that there are other ways we could build our function.  We could require the user to supply the augmented matrix for example, but then that means the user (which is likely us!) has to do step 1 every time they use this function.  It is better to let the function handle that step.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">SolveSystem</span><span class="p">(</span><span class="n">A</span><span class="p">,</span><span class="n">B</span><span class="p">):</span>
+    <span class="c1"># =============================================================================</span>
+    <span class="c1"># A is a NumPy array that represents a matrix of dimension n x n.</span>
+    <span class="c1"># B is a NumPy array that represents a matrix of dimension n x 1.</span>
+    <span class="c1"># SolveSystem returns a NumPy array of dimension n x 1 such that AX = B.</span>
+    <span class="c1"># If the system AX = B does not have a unique solution, SolveSystem may not</span>
+    <span class="c1"># generate correct results.</span>
+    <span class="c1"># =============================================================================</span>
+
+    <span class="c1"># Check shape of A</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">A</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="n">A</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;SolveSystem accepts only square arrays.&quot;</span><span class="p">)</span>
+        <span class="k">return</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">A</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>  <span class="c1"># n is number of rows and columns in A</span>
+    
+    <span class="c1"># 1. Join A and B to make the augmented matrix</span>
+    <span class="n">A_augmented</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">((</span><span class="n">A</span><span class="p">,</span><span class="n">B</span><span class="p">))</span>
+
+    <span class="c1"># 2. Carry out elimination    </span>
+    <span class="n">R</span> <span class="o">=</span> <span class="n">RowReduction</span><span class="p">(</span><span class="n">A_augmented</span><span class="p">)</span>
+
+    <span class="c1"># 3. Split R back to nxn piece and nx1 piece</span>
+    <span class="n">B_reduced</span> <span class="o">=</span> <span class="n">R</span><span class="p">[:,</span><span class="n">n</span><span class="p">:</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">A_reduced</span> <span class="o">=</span> <span class="n">R</span><span class="p">[:,</span><span class="mi">0</span><span class="p">:</span><span class="n">n</span><span class="p">]</span>
+
+    <span class="c1"># 4. Do back substitution</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="n">BackSubstitution</span><span class="p">(</span><span class="n">A_reduced</span><span class="p">,</span><span class="n">B_reduced</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">X</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Let’s test the routine by building a matrix, choosing a solution, and constructing a system <span class="math notranslate nohighlight">\(AX=B\)</span> so that we know the solution.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">A</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">],[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">2</span><span class="p">],[</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="o">-</span><span class="mi">2</span><span class="p">]])</span>
+<span class="c1"># We will choose the solution X_true</span>
+<span class="n">X_true</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">],[</span><span class="mi">1</span><span class="p">],[</span><span class="mi">1</span><span class="p">]])</span>
+
+<span class="c1"># Now make B so that the solution to AX=B is X_true</span>
+<span class="n">B</span> <span class="o">=</span> <span class="n">A</span><span class="nd">@X_true</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">B</span><span class="p">,</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">SolveSystem</span><span class="p">(</span><span class="n">A</span><span class="p">,</span><span class="n">B</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[[ 6]
+ [-1]
+ [ 4]] 
+
+[[1.]
+ [1.]
+ [1.]]
+</pre></div>
+</div>
+</div>
+</div>
+<p>Next, we modify a couple of lines to produce a completely random system with random solution.  We will use <span class="math notranslate nohighlight">\(\texttt{SolveSystem}\)</span> to find the solution and then compute the difference between the result and the actual known solution.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">A</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="o">-</span><span class="mi">8</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">4</span><span class="p">))</span>
+<span class="c1"># We set X_true for a random solution</span>
+<span class="n">X_true</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="o">-</span><span class="mi">8</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+<span class="c1"># Now make B so that the solution to AX=B is X_true</span>
+<span class="n">B</span> <span class="o">=</span> <span class="n">A</span><span class="nd">@X_true</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">SolveSystem</span><span class="p">(</span><span class="n">A</span><span class="p">,</span><span class="n">B</span><span class="p">)</span>
+<span class="c1"># Print the difference in computed solution and actual solution</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">X_true</span><span class="o">-</span><span class="n">X</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[[3.55271368e-15]
+ [1.77635684e-15]
+ [5.32907052e-15]
+ [1.33226763e-15]]
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="exercises">
+<h2>Exercises<a class="headerlink" href="#exercises" title="Link to this heading">#</a></h2>
+<p><strong>Exercise 1:</strong> Try out the <span class="math notranslate nohighlight">\(\texttt{RowReduction}\)</span> function on two different arrays that require the use of <span class="math notranslate nohighlight">\(\texttt{RowSwap}\)</span>.  Is it possible to test random arrays that require the use of <span class="math notranslate nohighlight">\(\texttt{RowSwap}\)</span>?</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## Code solution here.</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Exercise 2:</strong> Use <span class="math notranslate nohighlight">\(\texttt{np.random.rand(n,n)}\)</span> to generate a coefficient matrix with entries that are random floats.  Create a  linear system with a known solution using this matrix, and test <span class="math notranslate nohighlight">\(\texttt{SolveSystem}\)</span>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## Code solution here.</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Exercise 3:</strong> Experiment to see what might go wrong using <span class="math notranslate nohighlight">\(\texttt{RowReduction}\)</span> on a matrix that is <em>not</em> <span class="math notranslate nohighlight">\(n\times (n+1)\)</span>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## Code solution here.</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>A matrix is said to be in <strong>reduced row echelon form</strong> if it satisfies the following properties.</p>
+<ol class="arabic simple">
+<li><p>The first nonzero entry in each row is a 1.  These entries are the pivots.</p></li>
+<li><p>Each pivot is located to the right of the pivots in all rows above it.</p></li>
+<li><p>The entries below <strong>and above</strong> each pivot are 0.</p></li>
+<li><p>Rows that are all zeros are located below other rows.</p></li>
+</ol>
+<p>Here is an example of a matrix in reduced row echelon form.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{equation}
+\left[ \begin{array}{cccc} 1 &amp; 0 &amp; 0 &amp; * \\ 0 &amp; 1 &amp; 0 &amp; * \\ 0 &amp; 0 &amp; 1 &amp; * \end{array}\right]
+\end{equation}
+\end{split}\]</div>
+<p>Note that for the system represented by the augmented matrix in the first example, the solution is given by the entries in the final column.  There is no need for back substitution if the augmented matrix is in reduced row echelon form.</p>
+<p><strong>Exercise 4:</strong> Modify <span class="math notranslate nohighlight">\(\texttt{RowReduction}\)</span> to compute the reduced row echelon form of a matrix.  Name the new function <span class="math notranslate nohighlight">\(\texttt{RREF}\)</span>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## Code solution here.</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Exercise 5:</strong> Test your <span class="math notranslate nohighlight">\(\texttt{RREF}\)</span> on random <span class="math notranslate nohighlight">\(3\times 4\)</span> matrices, then on random <span class="math notranslate nohighlight">\(n\times (n+1)\)</span> matrices.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## Code solution here.</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Exercise 6:</strong> Construct a <span class="math notranslate nohighlight">\(3 \times 3\)</span> system with a known solution and compare the solutions produced using <span class="math notranslate nohighlight">\(\texttt{SolveSystem}\)</span> with those produced using <span class="math notranslate nohighlight">\(\texttt{RREF}\)</span>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## Code solution here.</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "executablebooks/jupyter-book",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="Matrix_Algebra.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Matrix Algebra</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="Inverse_Matrices.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Inverse Matrices</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#back-substitution-function">Back substitution function</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#row-reduction-function">Row reduction function</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#solve-system-function">Solve system function</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">Exercises</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Aditya Chaturvedi
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
